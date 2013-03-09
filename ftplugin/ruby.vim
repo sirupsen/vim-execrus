@@ -195,14 +195,23 @@ call g:AddExecrusPlugin({
 
 " Name: Test line
 " Run the Test::Unit test that is associated with the current line, e.g. for the
-" test:
+" test (where | is the cursor):
 "
 " def test_something
-"   assert_equal 4, 2 + 4|
+"   assert_equal 4, 2 + 2|
 " end
 "
-" Where | is the cursor. If this plugin is run, it will run the "test_something"
-" test.
+" It will run the "test_something" test. It also supports the syntax offered by
+" newer versions of Test::Unit:
+"
+" test 'something else' do
+"   |assert_equal 9, 6 + 3
+" end
+"
+" It will run this test.
+"
+" It works by just searching upwards. The first one it finds, it executes.
+"
 function! g:GetTestName()
   let vanilla = line('.')
   let test_name = ""
