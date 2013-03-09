@@ -24,8 +24,8 @@ Read usage and create some plugins. Send a pull request with the best ones.
 
 ## Usage
 
-To customize Execrus, you create and modify file type you're interested in
-adding Execrus functionality to directly in the plugin source.
+To customize Execrus, you create and modify the file type you're interested in
+adding Execrus functionality to, directly in the plugin source.
 
 For instance, a Ruby plugin should be in `ftplugin/ruby.vim` and
 might look something like this:
