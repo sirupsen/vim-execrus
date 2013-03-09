@@ -1,6 +1,4 @@
-if !exists('b:execrus_plugins')
-  let b:execrus_plugins = []
-end
+call g:InitializeExecrusEnvironment()
 
 function! s:DefaultCPlusPlusCompile()
   let s:executeable = substitute(expand('%'), ".cpp", "", "")
@@ -12,11 +10,11 @@ function! g:DefaultCPlusPlusExecute()
   execute s:compile_command . ' && ' . s:executeable
 endfunction
 
-let b:execrus_plugins += [{
+call g:AddExecrusPlugin({
       \'name': 'Default C++', 
       \'exec': function("g:DefaultCPlusPlusExecute"), 
       \'priority': 1
-\}]
+\})
 
 function! g:InformaticsCPlusPlusExecute()
   call s:DefaultCPlusPlusCompile()
@@ -27,9 +25,9 @@ function! g:InformaticsCPlusPlusCondition()
   return match(expand('%:p'), 'informatics') != -1
 endfunction
 
-let b:execrus_plugins += [{
+call g:AddExecrusPlugin({
       \'name': 'Informatics C++', 
       \'exec': function("g:InformaticsCPlusPlusExecute"), 
       \'condition': function('g:InformaticsCPlusPlusCondition'), 
       \'priority': 2
-\}]
+\})

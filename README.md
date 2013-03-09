@@ -43,28 +43,29 @@ For instance, a Ruby plugin should be in `ftplugin/ruby.vim` and
 might look something like this:
 
 ```vim
-let b:execrus_plugins = []
+call g:InitializeExecrusEnvironment()
 
-let b:execrus_plugins += [{
+call g:AddExecrusPlugin({
   \'name': 'Default Ruby', 
   \'exec': '!ruby %', 
   \'priority': 1
-\}]
+\})
 ```
 
-It will just execute `ruby {filename}`.
+It will just execute `ruby {filename}`. Note that the backlashes are required
+for the newlines added for readability purposes (`:help line-continuation`).
 
 Note that the priority for "Default Ruby" is 1. This means it has the lowest
 execution priotity. If we were to create another Ruby plugin to execute
 Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
 
 ```vim
-let b:execrus_plugins += [{
+call g:AddExecrusPlugin({
   \'name': 'Ruby Gemfile', 
   \'exec': '!bundle install --gemfile=%', 
   \'condition': 'Gemfile', 
   \'priority': 2
-\}]
+\})
 ```
 
 The new option here is `condition`. The current file name must match this
@@ -95,10 +96,14 @@ function! g:RubyTestExecute()
   exec cmd
 endfunction
 
-let b:execrus_plugins += [{
+call g:AddExecrusPlugin({
   \'name': 'Ruby Test',
   \'exec': function('g:RubyTestExecute'), 
   \'condition': '_test.rb$', 
   \'priority': 2
-\}]
+\})
 ```
+
+Note your function is required to have the global scope (`g:` prefix, see `:help
+internval-variables`) since it will be called from a variety of different
+scopes.

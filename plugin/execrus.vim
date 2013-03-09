@@ -38,6 +38,14 @@ function! s:ExecutePlugin(plugin)
   end
 endfunction
 
+function! g:AddExecrusPlugin(plugin)
+  let b:execrus_plugins += [a:plugin]
+endfunction
+
+function! g:InitializeExecrusEnvironment()
+  let b:execrus_plugins = []
+endfunction
+
 function! g:Execrus()
   let plugin = s:FindMaximumPriorityPlugin(b:execrus_plugins)
   call s:ExecutePlugin(plugin)
