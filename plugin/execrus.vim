@@ -1,5 +1,5 @@
 function! s:PluginMeetsCondition(plugin)
-  if has_key(a:plugin, 'condition') 
+  if has_key(a:plugin, 'condition')
     if type(a:plugin['condition']) == type(function('tr'))
       return call(a:plugin['condition'], [])
     elseif type(a:plugin['condition']) == type("")
