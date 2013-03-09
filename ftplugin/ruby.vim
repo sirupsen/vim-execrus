@@ -35,9 +35,16 @@ call g:AddExecrusPlugin({
 
 " NAME: Ruby Test
 " If the current file is a test, then run it.
+
+function! g:RunRubyTest()
+  let cmd = s:StartingCommand()
+  let cmd .= "ruby -Itest %"
+  exec cmd
+endfunction
+
 call g:AddExecrusPlugin({
       \'name': 'Ruby Test',
-      \'exec': 'bundle exec ruby -Itest %',
+      \'exec': function("g:RunRubyTest"),
       \'condition': '_test.rb$',
       \'priority': 2
 \})
@@ -54,10 +61,17 @@ call g:AddExecrusPlugin({
 
 " NAME: Rspec test
 " If the current file is a spec, then run it with rspec.
+
+function! g:RunRubySpec()
+  let cmd = s:StartingCommand()
+  let cmd .= "rspec %"
+  exec cmd
+endfunction
+
 call g:AddExecrusPlugin({
       \'name': 'Rspec test',
-      \'exec': "!bundle exec rspec %",
-      \'cond': 'spec.rb$',
+      \'exec': function("g:RunRubySpec"),
+      \'condition': 'spec.rb$',
       \'priority': 3
 \})
 
