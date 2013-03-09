@@ -10,15 +10,22 @@ different circumstances.
 
 ## Usage
 
+To customize Execrus, you create and modify file type you're interested in
+adding Execrus functionality to directly in the plugin source.
+
 For instance, a Ruby plugin should be in `ftplugin/ruby.vim` and
 might look something like this:
 
 ```vim
+let b:execrus_plugins = []
+
 let b:execrus_plugins += [{'name': 'Default Ruby', 'exec': '!ruby %', 'priority': 1}]
 ```
 
-Basically it will execute `ruby {filename}`. The priority here is 1, which means
-it has the lowest priority. If we were to create another Ruby plugin to execute
+It will just execute `ruby {filename}`.
+
+Note that the priority for "Default Ruby" is 1. This means it has the lowest
+execution priotity. If we were to create another Ruby plugin to execute
 Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
 
 ```vim
@@ -26,7 +33,7 @@ let b:execrus_plugins += [{'name': 'Ruby Gemfile', 'exec': '!bundle install --ge
 ```
 
 The new option here is `condition`. The current file name must match this
-string, otherwise it is simply ignored for this plugin.
+string, otherwise this plugin is simply ignored.
 
 Since a Gemfile also has the `ruby` filetype there would normally be a conflict.
 Conflicts are resolved by the priority system. In this case, `Ruby Gemfile` has
