@@ -43,4 +43,3 @@ function! g:Execrus()
   call s:ExecutePlugin(plugin)
 endfunction
 
-map <C-E> :call g:Execrus()<CR>

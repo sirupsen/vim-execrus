@@ -10,6 +10,18 @@ comes with some semi-sane defaults.
 
 ![](https://raw.github.com/Sirupsen/execrus.vim/master/demo.gif)
 
+## Installation
+
+Install with vanilla Vim, Pathogen or Vundle. 
+
+Add a mapping to your `.vimrc`:
+
+```vim
+map <C-E> :call g:Execrus()<CR>
+```
+
+Read usage and create some plugins. Send a pull request with the best ones.
+
 ## Usage
 
 To customize Execrus, you create and modify file type you're interested in
