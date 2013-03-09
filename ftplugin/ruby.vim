@@ -30,3 +30,9 @@ call g:AddExecrusPlugin({
       \'condition': 'Gemfile', 
       \'priority': 3
 \})
+
+call g:AddExecrusPlugin({
+  \'name': 'Ruby Lookup',
+  \'exec': '!ri <cword>',
+  \'priority': 1
+\}, 'walrus')

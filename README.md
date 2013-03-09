@@ -1,10 +1,11 @@
 # Execrus.vim
 
 Execrus is like clippy for Vim, only he's useful, a walrus and can execute things for you.
-Execrus works by having a hierachy of commands to run under different circumstances.
-For instance if you're in a Ruby file and hit ctrl-E, he might run the file, or
-if it's a test file he'll run the test, if it's a Gemfile he'll run bundle
-install. Or if you're in a C++ file, pushing ctrl-E might compile and run the
+Execrus is a framework for running external commands to run under different circumstances.
+
+For instance if you're in a Ruby file and hit C-E, Execrus might run the file, or
+if it's a test file it might run the test, if it's a Gemfile it could run bundle
+install. Or if you're in a C++ file, pushing C-E might compile and run the
 file, or run make. The functionality of execrus is easily customizable, but it
 comes with some semi-sane defaults.
 
@@ -111,3 +112,27 @@ call g:AddExecrusPlugin({
 Note your function is required to have the global scope (`g:` prefix, see `:help
 internval-variables`) since it will be called from a variety of different
 scopes.
+
+### Execution lanes
+
+Execurus supports an arbitary amount of `execution lanes`. When you add a plugin
+with `g:AddExecurusPlugin` by default it is added to the `default` lane.
+Likewise, when you call `g:Execrus` with no arguments, it defaults to execute
+from the `default` lane. However, you can create and bind more lanes, e.g. say
+we wanna look up whatever is under the cursor with `ri` in a Ruby file. We want
+to add this to another lane, since we might have running the current file in the `default` lane.
+We add it to the `walrus` lane:
+
+```vim
+call g:AddExecrusPlugin({
+  \'name': 'Ruby Lookup',
+  \'exec': '!ri <cword>', 
+  \'priority': 1
+\}, 'walrus')
+```
+
+Then we can bind the `walrus` lane, just like the default one:
+
+```vim
+map <C-\> :call g:Execrus('walrus')<CR>
+```
