@@ -73,7 +73,7 @@ endfunction
 call g:AddExecrusPlugin({
       \'name': 'Rspec test',
       \'exec': function("g:RunRubySpec"),
-      \'condition': 'spec.rb$',
+      \'condition': '_spec.rb$',
       \'priority': 3
 \})
 
@@ -188,14 +188,67 @@ call g:AddExecrusPlugin({
 "
 " Sorted by priority (lowest priority first)
 "
+"   * Run test::unit test associated with the current line
 "   * Run spec associated with the current line
 "
 " See each plugin for an in-depth description of each plugin.
+
+" Name: Test line
+" Run the Test::Unit test that is associated with the current line, e.g. for the
+" test:
 "
+" def test_something
+"   assert_equal 4, 2 + 4|
+" end
+"
+" Where | is the cursor. If this plugin is run, it will run the "test_something"
+" test.
+function! g:GetTestName()
+  let vanilla = line('.')
+  let test_name = ""
+
+  while vanilla > 0 && match(getline(vanilla), 'test_') == -1
+    let vanilla -= 1
+  endwhile
+
+  let dsl = line('.')
+
+  while dsl > 0 && match(getline(dsl), 'test.*do') == -1
+    let dsl -= 1
+  endwhile
+
+  if dsl == 0 && vanilla == 0
+    return 0
+  endif
+
+  if vanilla > dsl
+    let test_name = substitute(getline(vanilla), '.*def ', "", "")
+  else
+    let test_name = substitute(substitute(getline(dsl), "test ['\"]", "", ""), "['\"] do", "", "")
+    let test_name = substitute(test_name, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let test_name = substitute(test_name, ' ', '\\ ', 'g')
+  end
+
+  return test_name
+endfunction
+
+function! g:RubyTestLineExecute()
+  let cmd = s:StartingCommand()
+  let cmd .= "ruby -Itest -Ilib % -n /" . g:GetTestName()  . '/'
+
+  exec cmd
+endfunction
+
+call g:AddExecrusPlugin({
+      \'name': 'Spec line',
+      \'exec': function("g:RubyTestLineExecute"),
+      \'condition': '_test.rb$',
+      \'priority': 1
+\}, 'alternative')
 
 " NAME: Spec line
 " Runs the spec associated with the current line.
-function! RubyRspecLineExecute()
+function! g:RubyRspecLineExecute()
   let cmd = s:StartingCommand()
   let cmd .= "rspec %:" . line('.')
 
@@ -204,7 +257,7 @@ endfunction
 
 call g:AddExecrusPlugin({
       \'name': 'Spec line',
-      \'exec': function("RubyRspecLineExecute"),
-      \'cond': 'spec.rb$',
-      \'priority': 1
+      \'exec': function("g:RubyRspecLineExecute"),
+      \'condition': '_spec.rb$',
+      \'priority': 2
 \}, 'alternative')

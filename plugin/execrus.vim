@@ -52,6 +52,10 @@ functio! s:SanityCheckPlugin(plugin)
     let plug['priority'] = 1
   end
 
+  if has_key(plug, 'cond') && !has_key(plug, 'condition')
+    let plug['condition'] = plug['cond']
+  endif
+
   if !has_key(plug, 'exec')
     throw "Plugin " . plug['name'] . " has no 'exec' property."
   endif
