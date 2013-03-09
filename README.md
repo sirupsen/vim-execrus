@@ -1,10 +1,10 @@
 # Execrus.vim
 
-Execrus is your universal "run this!"-mapping. Execrus is a framework for
-running external commands under different conditions. You control multiple
-"priority lanes" which can change their behavior depending on which file you're
-in, location within the file and file type. You control lanes by customizing
-Execrus.
+Execrus is your universal "run this!"-mapping. It's a framework for running
+external commands under different conditions. You control multiple "priority
+lanes" which can change their behavior depending on for instance which file
+you're in, location within the file and file type. Mappings are created to
+execute from a priority lane. Lanes are controled by customizing Execrus.
 
 For instance, if you're in a Ruby file and hit C-E, Execrus could run the
 current file with `ruby`. If the file has a test associated with it, it could
@@ -17,7 +17,8 @@ Execrus supports multiple priority lanes. You could have a `documentation` lane
 that you map to another key. This could be responsible for documentaiton
 lookups, e.g. looking up the word under the cursor in
 [Dash](https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12), or
-if a `ctag` exists, jump to that.
+if a `ctag` exists, jump to that. Execrus is all about making smart choices
+depending on context.
 
 ![](https://raw.github.com/Sirupsen/vim-execrus/master/demo.gif)
 
