@@ -13,7 +13,7 @@ different circumstances.
 For instance, a Ruby plugin should be in `ftplugin/ruby.vim` and
 might look something like this:
 
-```vimscript
+```vim
 let b:execrus_plugins += [{'name': 'Default Ruby', 'exec': '!ruby %', 'priority': 1}]
 ```
 
@@ -21,7 +21,7 @@ Basically it will execute `ruby {filename}`. The priority here is 1, which means
 it has the lowest priority. If we were to create another Ruby plugin to execute
 Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
 
-```vimscript
+```vim
 let b:execrus_plugins += [{'name': 'Ruby Gemfile', 'exec': '!bundle install --gemfile=%', 'condition': 'Gemfile', 'priority': 2}]
 ```
 
@@ -40,7 +40,7 @@ condition (`condition`) can be functions. If we're in a file that ends with
 to prepend `bundle exec` to the command. This is easily resolved by writing a
 function:
 
-```vimscript
+```vim
 function! g:RubyTestExecute()
   let cmd = "!"
 
