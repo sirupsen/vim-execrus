@@ -1,7 +1,7 @@
 function! s:PluginMeetsCondition(plugin)
   if has_key(a:plugin, 'condition')
     if type(a:plugin['condition']) == type(function('tr'))
-      return call(a:plugin['condition'], [])
+      return !empty(call(a:plugin['condition'], []))
     elseif type(a:plugin['condition']) == type("")
       return match(expand('%'), a:plugin['condition']) != -1
     endif
