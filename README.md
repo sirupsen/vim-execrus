@@ -115,8 +115,8 @@ scopes.
 
 ### Execution lanes
 
-Execurus supports an arbitary amount of `execution lanes`. When you add a plugin
-with `g:AddExecurusPlugin` by default it is added to the `default` lane.
+Execrus supports an arbitary amount of `execution lanes`. When you add a plugin
+with `g:AddExecrusPlugin` by default it is added to the `default` lane.
 Likewise, when you call `g:Execrus` with no arguments, it defaults to execute
 from the `default` lane. However, you can create and bind more lanes, e.g. say
 we wanna look up whatever is under the cursor with `ri` in a Ruby file. We want
