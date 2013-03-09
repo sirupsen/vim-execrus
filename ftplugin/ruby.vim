@@ -7,8 +7,10 @@ call g:InitializeExecrusEnvironment()
 "   * Default Ruby
 "   * Run Test::Unit test file
 "   * Run RSpec test file
-"   * Run associated Test::Unit test file
-"   * Run associated RSpec test file
+"   * Run associated Test::Unit test
+"   * Run associated RSpec test
+"   * Run associated Test::Unit unit test
+"   * Run associated Rspec unit test
 "
 " See each plugin for an in-depth description of each plugin.
 "
@@ -119,6 +121,10 @@ call g:AddExecrusPlugin({
       \'priority': 4
 \})
 
+
+" NAME: Associated spec
+" Same as "Associated test" but instead of looking for a Test::Unit-like test,
+" it will look for specs.
 function! g:RubyRunSingleSpec(file)
   let cmd = s:StartingCommand()
   let cmd .= "rspec " . a:file
@@ -126,9 +132,6 @@ function! g:RubyRunSingleSpec(file)
   exec cmd
 endfunction
 
-" NAME: Associated spec
-" Same as "Associated test" but instead of looking for a Test::Unit-like test,
-" it will look for specs.
 function! g:RubyRSpecTestName()
   return g:RubyTestName("spec", "spec")
 endfunction
@@ -145,6 +148,41 @@ call g:AddExecrusPlugin({
       \'priority': 5
 \})
 
+" NAME: Associated unit test
+" Same as "Associated test", but looks in the test/unit directory instead.
+function! g:RubyTestUnitRailsTestName()
+  return g:RubyTestName("test/unit", "test")
+endfunction
+
+function! g:RubyExecuteTestUnitRails()
+  let test_name = g:RubyTestUnitRailsTestName()
+  call g:RubyRunSingleTest(test_name)
+endfunction
+
+call g:AddExecrusPlugin({
+      \'name': 'Associated test',
+      \'exec': function("g:RubyExecuteTestUnitRails"),
+      \'condition': function("g:RubyTestUnitRailsTestName"),
+      \'priority': 6
+\})
+
+" NAME: Associated unit spec
+" Same as "Associated test", but looks in the test/unit directory instead.
+function! g:RubyTestUnitRailsTestNameSpec()
+  return g:RubyTestName("spec/unit", "spec")
+endfunction
+
+function! g:RubyExecuteTestUnitRailsSpec()
+  let test_name = g:RubyTestUnitRailsTestNameSpec()
+  call g:RubyRunSingleSpec(test_name)
+endfunction
+
+call g:AddExecrusPlugin({
+      \'name': 'Associated test',
+      \'exec': function("g:RubyExecuteTestUnitRailsSpec"),
+      \'condition': function("g:RubyTestUnitRailsTestNameSpec"),
+      \'priority': 7
+\})
 
 " LANE: ALTERNATIVE
 "
