@@ -130,9 +130,8 @@ We add it to the `walrus` lane:
 
 ```vim
 call g:AddExecrusPlugin({
-  \'name': 'Ruby Lookup',
+  \'name': 'RI lookup',
   \'exec': '!ri <cword>', 
-  \'priority': 1
 \}, 'walrus')
 ```
 
