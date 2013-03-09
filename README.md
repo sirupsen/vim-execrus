@@ -78,7 +78,7 @@ call g:AddExecrusPlugin({
 ```
 
 The new option here is `condition`. The current file name must match this
-string, otherwise this plugin is simply ignored.
+string, otherwise this plugin is simply ignored. You can use Vim regex here.
 
 Since a Gemfile also has the `ruby` filetype there would normally be a conflict.
 Conflicts are resolved by the priority system. In this case, `Ruby Gemfile` has
