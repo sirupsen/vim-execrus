@@ -1,6 +1,6 @@
 # Execrus.vim
 
-Execrus is like clippy for Vim, only he's useful and can execute things for you.
+Execrus is like clippy for Vim, only he's useful, a walrus and can execute things for you.
 Execrus works by having a hierachy of commands to run under different circumstances.
 For instance if you're in a Ruby file and hit ctrl-E, he might run the file, or
 if it's a test file he'll run the test, if it's a Gemfile he'll run bundle
