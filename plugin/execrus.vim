@@ -82,7 +82,7 @@ function! g:Execrus(...)
     let lane = a:000[0]
   end
 
-  if !has_key(b:execrus_plugins, lane)
+  if !exists("b:execrus_plugins") || !has_key(b:execrus_plugins, lane)
     echo "No plugins in lane '" . lane . "' for '" . &filetype . "'!"
     return
   endif
