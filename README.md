@@ -19,7 +19,11 @@ might look something like this:
 ```vim
 let b:execrus_plugins = []
 
-let b:execrus_plugins += [{'name': 'Default Ruby', 'exec': '!ruby %', 'priority': 1}]
+let b:execrus_plugins += [{
+  \'name': 'Default Ruby', 
+  \'exec': '!ruby %', 
+  \'priority': 1
+\}]
 ```
 
 It will just execute `ruby {filename}`.
@@ -29,7 +33,12 @@ execution priotity. If we were to create another Ruby plugin to execute
 Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
 
 ```vim
-let b:execrus_plugins += [{'name': 'Ruby Gemfile', 'exec': '!bundle install --gemfile=%', 'condition': 'Gemfile', 'priority': 2}]
+let b:execrus_plugins += [{
+  \'name': 'Ruby Gemfile', 
+  \'exec': '!bundle install --gemfile=%', 
+  \'condition': 'Gemfile', 
+  \'priority': 2
+\}]
 ```
 
 The new option here is `condition`. The current file name must match this
@@ -60,5 +69,10 @@ function! g:RubyTestExecute()
   exec cmd
 endfunction
 
-let b:execrus_plugins += [{'name': 'Ruby Test', 'exec': function('g:RubyTestExecute'), 'condition': '_test.rb$', 'priority': 2}]
+let b:execrus_plugins += [{
+  \'name': 'Ruby Test',
+  \'exec': function('g:RubyTestExecute'), 
+  \'condition': '_test.rb$', 
+  \'priority': 2
+\}]
 ```
