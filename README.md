@@ -120,7 +120,7 @@ Note your function is required to have the global scope (`g:` prefix, see `:help
 internval-variables`) since it will be called from a variety of different
 scopes.
 
-### Execution lanes
+### Priority lanes
 
 Execrus supports an arbitary amount of lanes. When you add a plugin
 with `g:AddExecrusPlugin` by default it is added to the `default` lane.
