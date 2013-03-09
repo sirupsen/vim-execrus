@@ -27,15 +27,9 @@ Read usage and create some plugins. Send a pull request with the best ones.
 
 ## Defaults
 
-These are the defaults in different environments. See the next section on how to
-customize the default behavior.
-
-* Ruby
-  - Run script 
-  - bundle install for Gemfiles
-  - Run Test::Unit-like tests
-* C++
-  - Compile and run
+There's a sane set of detault behavior for the `default` and `walrus` lane. See
+the `ftplugin/` directory for these. This is also where you customize the
+behavior.
 
 ## Customization
 
