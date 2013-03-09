@@ -1,7 +1,9 @@
 # Execrus.vim
 
-Execrus is like clippy for Vim, only he's useful, a walrus and can execute things for you.
-Execrus is a framework for running external commands to run under different circumstances.
+Execrus is like clippy for Vim, only he's useful, a walrus and can execute
+things for you.  Execrus is a framework for running external commands under
+different circumstances. Read the customization section to take full advantage
+of the API.
 
 For instance if you're in a Ruby file and hit C-E, Execrus might run the file, or
 if it's a test file it might run the test, if it's a Gemfile it could run bundle
@@ -37,8 +39,10 @@ customize the default behavior.
 
 ## Customization
 
-To customize Execrus, you create and modify the file type you're interested in
-adding Execrus functionality to, directly in the plugin source.
+Execrus is a framework for running external commands in Vim, thus you should
+learn to customize it to take full advantage of it. To customize Execrus, you
+create and modify the file type in the plugin source you're interested in adding
+Execrus functionality to.
 
 For instance, a Ruby plugin should be in `ftplugin/ruby.vim` and
 might look something like this:
