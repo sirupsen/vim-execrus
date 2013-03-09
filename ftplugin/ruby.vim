@@ -1,17 +1,38 @@
 call g:InitializeExecrusEnvironment()
 
+" DEFAULT LANE
+"
+" Sorted by priority (lowest priority first)
+"
+"   * Default Ruby
+"   * Run Test::Unit test file
+"   * Run RSpec test file
+"   * Run associated Test::Unit test file
+"   * Run associated RSpec test file
+"
+" See each plugin for an in-depth description of each plugin.
+"
+
+" NAME: Default Ruby
+" This plugin runs the current file with Ruby.
 call g:AddExecrusPlugin({
       \'name': 'Default Ruby',
       \'exec': '!ruby %',
       \'priority': 1
 \})
 
+" NAME: Ruby Test
+" If the current file is a test, then run it.
 call g:AddExecrusPlugin({
       \'name': 'Ruby Test',
       \'exec': 'bundle exec ruby -Itest %',
-      \'condition': '_test.rb$', 'priority': 2
+      \'condition': '_test.rb$', 
+      \'priority': 2
 \})
 
+" NAME: Ruby Gemfile
+" If the current file is a Gemfile, then run bundle install against
+" it.
 call g:AddExecrusPlugin({
       \'name': 'Ruby Gemfile',
       \'exec': '!bundle install --gemfile=%',
@@ -19,24 +40,8 @@ call g:AddExecrusPlugin({
       \'priority': 3
 \})
 
-call g:AddExecrusPlugin({
-      \'name': 'Ruby Lookup',
-      \'exec': '!ri <cword>',
-      \'priority': 1
-\}, 'walrus')
-
-function! RubyRspecLineExecute()
-  let cmd = "!"
-
-  if filereadable("./Gemfile")
-    let cmd .= "bundle exec "
-  endif
-
-  let cmd .= "rspec %:" . line('.')
-
-  exec cmd
-endfunction
-
+" NAME: Rspec test
+" If the current file is a spec, then run it with rspec.
 call g:AddExecrusPlugin({
       \'name': 'Rspec test',
       \'exec': "!bundle exec rspec %",
@@ -44,13 +49,12 @@ call g:AddExecrusPlugin({
       \'priority': 3
 \})
 
-call g:AddExecrusPlugin({
-      \'name': 'Rspec test line',
-      \'exec': function("RubyRspecLineExecute"),
-      \'cond': 'spec.rb$',
-      \'priority': 2
-\}, 'walrus')
-
+" NAME: Associated test
+" Will look for an associated test. It will favor a deep namespace. For
+" instance, if you run this from `lib/something/input/file.rb` it will try
+" `test/something/input/file_test.rb` first. If that file doesn't exist, it'll pop
+" from the namespace and try `test/input/file_test.rb` until it eaches
+" `test/file_test.rb`. If that file doesn't exist, it gives up.
 function! g:RubyRunSingleTest(path)
   let cmd = "!"
 
@@ -88,7 +92,7 @@ function! g:RubyExecuteTestUnit()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Run associated unit test',
+      \'name': 'Associated test',
       \'exec': function("g:RubyExecuteTestUnit"),
       \'condition': function("g:RubyTestUnitTestName"),
       \'priority': 4
@@ -106,6 +110,9 @@ function! g:RubyRunSingleSpec(file)
   exec cmd
 endfunction
 
+" NAME: Associated spec
+" Same as "Associated test" but instead of looking for a Test::Unit-like test,
+" it will look for specs.
 function! g:RubyRSpecTestName()
   return g:RubyTestName("spec", "spec")
 endfunction
@@ -116,8 +123,27 @@ function! g:RubyExecuteRspec()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Run associated spec',
+      \'name': 'Associated spec',
       \'exec': function("g:RubyExecuteRspec"),
       \'condition': function("g:RubyRSpecTestName"),
       \'priority': 5
 \})
+
+function! RubyRspecLineExecute()
+  let cmd = "!"
+
+  if filereadable("./Gemfile")
+    let cmd .= "bundle exec "
+  endif
+
+  let cmd .= "rspec %:" . line('.')
+
+  exec cmd
+endfunction
+
+call g:AddExecrusPlugin({
+      \'name': 'Rspec test line',
+      \'exec': function("RubyRspecLineExecute"),
+      \'cond': 'spec.rb$',
+      \'priority': 2
+\}, 'walrus')
