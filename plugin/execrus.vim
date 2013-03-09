@@ -24,6 +24,8 @@ function! s:FindMaximumPriorityPlugin(plugins)
   if max_plugin['priority'] != -1
     return max_plugin
   endif
+
+  return 0
 endfunction
 
 function! s:ExecutePlugin(plugin)
@@ -38,16 +40,47 @@ function! s:ExecutePlugin(plugin)
   end
 endfunction
 
-function! g:AddExecrusPlugin(plugin)
-  let b:execrus_plugins += [a:plugin]
+function! s:AddSingleExecerusPlugin(plugin, lane)
+  if has_key(b:execrus_plugins, a:lane)
+    let b:execrus_plugins[a:lane] += [a:plugin]
+  else
+    let b:execrus_plugins[a:lane] = []
+    let b:execrus_plugins[a:lane] += [a:plugin]
+  endif
+endfunction
+
+function! g:AddExecrusPlugin(plugin, ...)
+  if a:0 > 0
+    for lane in a:000
+      call s:AddSingleExecerusPlugin(a:plugin, lane)
+    endfor
+  else
+    call s:AddSingleExecerusPlugin(a:plugin, 'default')
+  end
 endfunction
 
 function! g:InitializeExecrusEnvironment()
-  let b:execrus_plugins = []
+  let b:execrus_plugins = {}
 endfunction
 
-function! g:Execrus()
-  let plugin = s:FindMaximumPriorityPlugin(b:execrus_plugins)
-  call s:ExecutePlugin(plugin)
+function! g:Execrus(...)
+  let lane = "default"
+
+  if a:0 > 0
+    let lane = a:000[0]
+  end
+
+  if !has_key(b:execrus_plugins, lane)
+    echo "No plugins in lane '" . lane . "' for '" . &filetype . "'!"
+    return
+  endif
+
+  let plugin = s:FindMaximumPriorityPlugin(b:execrus_plugins[lane])
+
+  if type(plugin) == type({})
+    call s:ExecutePlugin(plugin)
+  else
+    echo "No plugins in lane '" . lane . "' meet conditions for this '" . &filetype . "' file!"
+  end
 endfunction
 
