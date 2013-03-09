@@ -22,7 +22,19 @@ map <C-E> :call g:Execrus()<CR>
 
 Read usage and create some plugins. Send a pull request with the best ones.
 
-## Usage
+## Defaults
+
+These are the defaults in different environments. See the next section on how to
+customize the default behavior.
+
+* Ruby
+  - Run script 
+  - bundle install for Gemfiles
+  - Run Test::Unit-like tests
+* C++
+  - Compile and run
+
+## Customization
 
 To customize Execrus, you create and modify file type you're interested in
 adding Execrus functionality to directly in the plugin source.
