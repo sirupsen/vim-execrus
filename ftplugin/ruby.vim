@@ -1,6 +1,10 @@
 let b:execrus_plugins = []
 
-let b:execrus_plugins += [{'name': 'Default Ruby', 'exec': '!ruby %', 'priority': 1}]
+let b:execrus_plugins += [{
+      \'name': 'Default Ruby', 
+      \'exec': '!ruby %', 
+      \'priority': 1
+\}]
 
 function! g:RubyTestExecute()
   let cmd = "!"
@@ -14,6 +18,15 @@ function! g:RubyTestExecute()
   exec cmd
 endfunction
 
-let b:execrus_plugins += [{'name': 'Ruby Test', 'exec': function('g:RubyTestExecute'), 'condition': '_test.rb$', 'priority': 2}]
+let b:execrus_plugins += [{
+      \'name': 'Ruby Test', 
+      \'exec': function('g:RubyTestExecute'), 
+      \'condition': '_test.rb$', 'priority': 2
+\}]
 
-let b:execrus_plugins += [{'name': 'Ruby Gemfile', 'exec': '!bundle install --gemfile=%', 'condition': 'Gemfile', 'priority': 3}]
+let b:execrus_plugins += [{
+      \'name': 'Ruby Gemfile', 
+      \'exec': '!bundle install --gemfile=%', 
+      \'condition': 'Gemfile', 
+      \'priority': 3
+\}]

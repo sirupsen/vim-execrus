@@ -12,7 +12,11 @@ function! g:DefaultCPlusPlusExecute()
   execute s:compile_command . ' && ' . s:executeable
 endfunction
 
-let b:execrus_plugins += [{'name': 'Default C++', 'exec': function("g:DefaultCPlusPlusExecute"), 'priority': 1}]
+let b:execrus_plugins += [{
+      \'name': 'Default C++', 
+      \'exec': function("g:DefaultCPlusPlusExecute"), 
+      \'priority': 1
+\}]
 
 function! g:InformaticsCPlusPlusExecute()
   call s:DefaultCPlusPlusCompile()
@@ -23,4 +27,9 @@ function! g:InformaticsCPlusPlusCondition()
   return match(expand('%:p'), 'informatics') != -1
 endfunction
 
-let b:execrus_plugins += [{'name': 'Informatics C++', 'exec': function("g:InformaticsCPlusPlusExecute"), 'condition': function('g:InformaticsCPlusPlusCondition'), 'priority': 2}]
+let b:execrus_plugins += [{
+      \'name': 'Informatics C++', 
+      \'exec': function("g:InformaticsCPlusPlusExecute"), 
+      \'condition': function('g:InformaticsCPlusPlusCondition'), 
+      \'priority': 2
+\}]
