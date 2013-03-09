@@ -52,9 +52,9 @@ call g:AddExecrusPlugin({
 " NAME: Associated test
 " Will look for an associated test. It will favor a deep namespace. For
 " instance, if you run this from `lib/something/input/file.rb` it will try
-" `test/something/input/file_test.rb` first. If that file doesn't exist, it'll pop
-" from the namespace and try `test/input/file_test.rb` until it eaches
-" `test/file_test.rb`. If that file doesn't exist, it gives up.
+" `test/lib/something/input/file_test.rb` first. If that file doesn't exist,
+" it'll pop from the namespace and try `test/something/input/file_test.rb` until
+" it eaches `test/file_test.rb`. If that file doesn't exist, it gives up.
 function! g:RubyRunSingleTest(path)
   let cmd = "!"
 
