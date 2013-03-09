@@ -20,8 +20,8 @@ lookups, e.g. looking up the word under the cursor in
 if a `ctag` exists, jump to that. Execrus is all about making smart choices
 depending on context.
 
-There's an `alternative` lane in the default configuration. For example, in Ruby
-it runs the test your cursor is currently in.
+Besides the `default` lane there's an `alternative` lane in the default
+configuration. For example, in Ruby it runs the test under the cursor.
 
 ![](https://raw.github.com/Sirupsen/vim-execrus/master/demo.gif)
 
