@@ -53,7 +53,11 @@ call g:AddExecrusPlugin({
 ```
 
 It will just execute `ruby {filename}`. Note that the backlashes are required
-for the newlines added for readability purposes (`:help line-continuation`).
+for the newlines added for readability purposes (`:help line-continuation`). If
+  you are unsure what the file's name should be, run `:echo &filetype` when
+  you're in a file of the type you want to create an Execrus plugin for. Your
+  plugin should be `ftplugin/{whatever that outputs}.vim`.
+  
 
 Note that the priority for "Default Ruby" is 1. This means it has the lowest
 execution priotity. If we were to create another Ruby plugin to execute
