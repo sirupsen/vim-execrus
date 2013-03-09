@@ -1,9 +1,7 @@
 function! s:PluginMeetsCondition(plugin)
   if has_key(a:plugin, 'condition') 
     if type(a:plugin['condition']) == type(function('tr'))
-      if call(a:plugin['condition'], [])
-        return 1
-      endif
+      return call(a:plugin['condition'], [])
     elseif type(a:plugin['condition']) == type("")
       return match(expand('%'), a:plugin['condition']) != -1
     endif
@@ -24,8 +22,6 @@ function! s:FindMaximumPriorityPlugin(plugins)
   if max_plugin['priority'] != -1
     return max_plugin
   endif
-
-  return 0
 endfunction
 
 function! s:ExecutePlugin(plugin)
