@@ -1,6 +1,6 @@
 call g:InitializeExecrusEnvironment()
 
-" DEFAULT LANE
+" LANE: DEFAULT
 "
 " Sorted by priority (lowest priority first)
 "
@@ -12,6 +12,18 @@ call g:InitializeExecrusEnvironment()
 "
 " See each plugin for an in-depth description of each plugin.
 "
+
+" Generic functions for use in the plugins.
+
+function! s:StartingCommand()
+  let cmd = "!"
+
+  if filereadable("./Gemfile")
+    let cmd .= "bundle exec "
+  endif
+
+  return cmd
+endfunction
 
 " NAME: Default Ruby
 " This plugin runs the current file with Ruby.
@@ -26,7 +38,7 @@ call g:AddExecrusPlugin({
 call g:AddExecrusPlugin({
       \'name': 'Ruby Test',
       \'exec': 'bundle exec ruby -Itest %',
-      \'condition': '_test.rb$', 
+      \'condition': '_test.rb$',
       \'priority': 2
 \})
 
@@ -56,12 +68,7 @@ call g:AddExecrusPlugin({
 " it'll pop from the namespace and try `test/something/input/file_test.rb` until
 " it eaches `test/file_test.rb`. If that file doesn't exist, it gives up.
 function! g:RubyRunSingleTest(path)
-  let cmd = "!"
-
-  if filereadable("./Gemfile")
-    let cmd .= "bundle exec "
-  endif
-
+  let cmd = s:StartingCommand()
   let cmd .= "ruby -Itest " . a:path
 
   execute cmd
@@ -99,12 +106,7 @@ call g:AddExecrusPlugin({
 \})
 
 function! g:RubyRunSingleSpec(file)
-  let cmd = "!"
-
-  if filereadable("./Gemfile")
-    let cmd .= "bundle exec "
-  endif
-
+  let cmd = s:StartingCommand()
   let cmd .= "rspec " . a:file
 
   exec cmd
@@ -129,21 +131,28 @@ call g:AddExecrusPlugin({
       \'priority': 5
 \})
 
+
+" LANE: ALTERNATIVE
+"
+" Sorted by priority (lowest priority first)
+"
+"   * Run spec associated with the current line
+"
+" See each plugin for an in-depth description of each plugin.
+"
+
+" NAME: Spec line
+" Runs the spec associated with the current line.
 function! RubyRspecLineExecute()
-  let cmd = "!"
-
-  if filereadable("./Gemfile")
-    let cmd .= "bundle exec "
-  endif
-
+  let cmd = s:StartingCommand()
   let cmd .= "rspec %:" . line('.')
 
   exec cmd
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Rspec test line',
+      \'name': 'Spec line',
       \'exec': function("RubyRspecLineExecute"),
       \'cond': 'spec.rb$',
-      \'priority': 2
-\}, 'walrus')
+      \'priority': 1
+\}, 'alternative')
