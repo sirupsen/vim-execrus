@@ -65,7 +65,8 @@ for the newlines added for readability purposes (`:help line-continuation`). If
   
 
 Note that the priority for "Default Ruby" is 1. This means it has the lowest
-execution priotity. If we were to create another Ruby plugin to execute
+execution priotity. If no priority is added, it will default to priority 1. If
+we were to create another Ruby plugin to execute
 Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
 
 ```vim

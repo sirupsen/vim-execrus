@@ -49,13 +49,29 @@ function! s:AddSingleExecerusPlugin(plugin, lane)
   endif
 endfunction
 
+functio! s:SanityCheckPlugin(plugin)
+  let plug = a:plugin
+
+  if !has_key(plug, 'priority')
+    let plug['priority'] = 1
+  end
+
+  if !has_key(plug, 'exec')
+    throw "Plugin " . plug['name'] . " has no 'exec' property."
+  endif
+
+  return plug
+endfunctio
+
 function! g:AddExecrusPlugin(plugin, ...)
+  let plug = s:SanityCheckPlugin(a:plugin)
+
   if a:0 > 0
     for lane in a:000
-      call s:AddSingleExecerusPlugin(a:plugin, lane)
+      call s:AddSingleExecerusPlugin(plug, lane)
     endfor
   else
-    call s:AddSingleExecerusPlugin(a:plugin, 'default')
+    call s:AddSingleExecerusPlugin(plug, 'default')
   end
 endfunction
 
