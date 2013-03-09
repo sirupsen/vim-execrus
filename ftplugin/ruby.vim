@@ -36,3 +36,41 @@ call g:AddExecrusPlugin({
       \'exec': '!ri <cword>',
       \'priority': 1
 \}, 'walrus')
+
+function! RubyRspecExecute()
+  let cmd = "!"
+
+  if filereadable("./Gemfile")
+    let cmd .= "bundle exec "
+  endif
+
+  let cmd .= "rspec %"
+
+  exec cmd
+endfunction
+
+function! RubyRspecLineExecute()
+  let cmd = "!"
+
+  if filereadable("./Gemfile")
+    let cmd .= "bundle exec "
+  endif
+
+  let cmd .= "rspec %:" . line('.')
+
+  exec cmd
+endfunction
+
+call g:AddExecrusPlugin({
+      \'name': 'Rspec test',
+      \'exec': function("RubyRspecExecute"),
+      \'cond': 'spec.rb$',
+      \'priority': 3
+\})
+
+call g:AddExecrusPlugin({
+      \'name': 'Rspec test line',
+      \'exec': function("RubyRspecLineExecute"),
+      \'cond': 'spec.rb$',
+      \'priority': 2
+\}, 'walrus')
