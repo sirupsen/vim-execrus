@@ -8,6 +8,8 @@ install. Or if you're in a C++ file, pushing ctrl-E might compile and run the
 file, or run make. The functionality of execrus is easily customizable, but it
 comes with some semi-sane defaults.
 
+![](https://raw.github.com/Sirupsen/execrus.vim/master/demo.gif)
+
 ## Usage
 
 To customize Execrus, you create and modify file type you're interested in
