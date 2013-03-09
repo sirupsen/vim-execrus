@@ -41,7 +41,7 @@ If you want to bind another lane, e.g. the alternative lane, that could do
 things like run the test under the cursor, do the following:
 
 ```vim
-map <C-E> :call g:Execrus('alternative')<CR>
+map <C-\> :call g:Execrus('alternative')<CR>
 ```
 
 ## Defaults
