@@ -32,7 +32,7 @@ call g:AddExecrusPlugin({
 \})
 
 call g:AddExecrusPlugin({
-  \'name': 'Ruby Lookup',
-  \'exec': '!ri <cword>',
-  \'priority': 1
+      \'name': 'Ruby Lookup',
+      \'exec': '!ri <cword>',
+      \'priority': 1
 \}, 'walrus')
