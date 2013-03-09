@@ -20,6 +20,9 @@ lookups, e.g. looking up the word under the cursor in
 if a `ctag` exists, jump to that. Execrus is all about making smart choices
 depending on context.
 
+There's an `alternative` lane in the default configuration. For example, in Ruby
+it runs the test your cursor is currently in.
+
 ![](https://raw.github.com/Sirupsen/vim-execrus/master/demo.gif)
 
 ## Installation
@@ -34,11 +37,19 @@ map <C-E> :call g:Execrus()<CR>
 
 Read usage and create some plugins. Send a pull request with the best ones.
 
+If you want to bind another lane, e.g. the alternative lane, that could do
+things like run the test under the cursor, do the following:
+
+```vim
+map <C-E> :call g:Execrus('alternative')<CR>
+```
+
 ## Defaults
 
-There's a sane set of detault behavior for the `default` and `walrus` lane. See
-the `ftplugin/` directory for these. This is also where you customize the
-behavior.
+There's a sane set of detault behavior for the `default` and `alternative` lane.
+See the `ftplugin/` directory for these. The behavior for Ruby would be in
+`ftplugin/ruby.vim`. This is also where you customize the behavior for Execrus.
+Send your best changes upstream.
 
 ## Customization
 
