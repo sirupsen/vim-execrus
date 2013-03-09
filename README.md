@@ -3,7 +3,7 @@
 Execrus is like clippy for Vim, only he's useful, a walrus and can execute
 things for you.  Execrus is a framework for running external commands under
 different circumstances. Read the customization section to take full advantage
-of the API.
+of the API. It aims to be your universal "run this!" mapping.
 
 For instance if you're in a Ruby file and hit C-E, Execrus might run the file, or
 if it's a test file it might run the test, if it's a Gemfile it could run bundle
