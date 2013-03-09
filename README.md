@@ -1,15 +1,23 @@
 # Execrus.vim
 
-Execrus is like clippy for Vim, only he's useful, a walrus and can execute
-things for you.  Execrus is a framework for running external commands under
-different circumstances. Read the customization section to take full advantage
-of the API. It aims to be your universal "run this!" mapping.
+Execrus is your universal "run this!"-mapping. Execrus is a framework for
+running external commands under different conditions. You control multiple
+"priority lanes" which can change their behavior depending on which file you're
+in, location within the file and file type. You control lanes by customizing
+Execrus.
 
-For instance if you're in a Ruby file and hit C-E, Execrus might run the file, or
-if it's a test file it might run the test, if it's a Gemfile it could run bundle
-install. Or if you're in a C++ file, pushing C-E might compile and run the
-file, or run make. The functionality of execrus is easily customizable, but it
-comes with some semi-sane defaults.
+For instance, if you're in a Ruby file and hit C-E, Execrus could run the
+current file with `ruby`. If the file has a test associated with it, it could
+run that instead. If it happens to be a Gemfile, it'll run `bundle install` in
+lieu of `ruby`. So here running the file with `ruby` has the lowest priority.
+Running the test associated with it, has a much higher priority, or running
+`bundle install` if it's a Gemfile.
+
+Execrus supports multiple priority lanes. You could have a `documentation` lane
+that you map to another key. This could be responsible for documentaiton
+lookups, e.g. looking up the word under the cursor in
+[Dash](https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12), or
+if a `ctag` exists, jump to that.
 
 ![](https://raw.github.com/Sirupsen/vim-execrus/master/demo.gif)
 
@@ -114,7 +122,7 @@ scopes.
 
 ### Execution lanes
 
-Execrus supports an arbitary amount of `execution lanes`. When you add a plugin
+Execrus supports an arbitary amount of lanes. When you add a plugin
 with `g:AddExecrusPlugin` by default it is added to the `default` lane.
 Likewise, when you call `g:Execrus` with no arguments, it defaults to execute
 from the `default` lane. However, you can create and bind more lanes, e.g. say
