@@ -1,9 +1,9 @@
 call g:InitializeExecrusEnvironment()
 
 call g:AddExecrusPlugin({
-      \'name': 'Default Ruby',
-      \'exec': '!ruby %',
-      \'priority': 1
+  \'name': 'Default Ruby',
+  \'exec': '!ruby %',
+  \'priority': 1
 \})
 
 function! g:RubyTestExecute()
@@ -19,22 +19,22 @@ function! g:RubyTestExecute()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Ruby Test',
-      \'exec': function('g:RubyTestExecute'),
-      \'condition': '_test.rb$', 'priority': 2
+  \'name': 'Ruby Test',
+  \'exec': function('g:RubyTestExecute'),
+  \'condition': '_test.rb$', 'priority': 2
 \})
 
 call g:AddExecrusPlugin({
-      \'name': 'Ruby Gemfile',
-      \'exec': '!bundle install --gemfile=%',
-      \'condition': 'Gemfile',
-      \'priority': 3
+  \'name': 'Ruby Gemfile',
+  \'exec': '!bundle install --gemfile=%',
+  \'condition': 'Gemfile',
+  \'priority': 3
 \})
 
 call g:AddExecrusPlugin({
-      \'name': 'Ruby Lookup',
-      \'exec': '!ri <cword>',
-      \'priority': 1
+  \'name': 'Ruby Lookup',
+  \'exec': '!ri <cword>',
+  \'priority': 1
 \}, 'walrus')
 
 function! RubyRspecExecute()
@@ -62,15 +62,15 @@ function! RubyRspecLineExecute()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Rspec test',
-      \'exec': function("RubyRspecExecute"),
-      \'cond': 'spec.rb$',
-      \'priority': 3
+  \'name': 'Rspec test',
+  \'exec': function("RubyRspecExecute"),
+  \'cond': 'spec.rb$',
+  \'priority': 3
 \})
 
 call g:AddExecrusPlugin({
-      \'name': 'Rspec test line',
-      \'exec': function("RubyRspecLineExecute"),
-      \'cond': 'spec.rb$',
-      \'priority': 2
+  \'name': 'Rspec test line',
+  \'exec': function("RubyRspecLineExecute"),
+  \'cond': 'spec.rb$',
+  \'priority': 2
 \}, 'walrus')
