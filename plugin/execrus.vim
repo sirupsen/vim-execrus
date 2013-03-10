@@ -76,7 +76,9 @@ function! g:AddExecrusPlugin(plugin, ...)
 endfunction
 
 function! g:InitializeExecrusEnvironment()
-  let b:execrus_plugins = {}
+  if !exists("b:execrus_plugins")
+    let b:execrus_plugins = {}
+  endif
 endfunction
 
 function! g:Execrus(...)
