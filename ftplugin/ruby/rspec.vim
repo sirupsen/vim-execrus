@@ -2,9 +2,21 @@
 " LANE: default
 " If the current file is a spec, then run it with rspec.
 function! g:RunRubySpec()
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "rspec %"
-  exec cmd
+  if filereadabe("./config/application.rb")
+    let output = system("which spring")
+
+    if !empty(output)
+      let cmd = "!"
+      let cmd .= "spring rspec " . a:file
+
+      exec cmd
+    endif
+  else
+    let cmd = g:RubyStartingCommand()
+    let cmd .= "rspec %"
+
+    exec cmd
+  endif
 endfunction
 
 call g:AddExecrusPlugin({
@@ -19,10 +31,21 @@ call g:AddExecrusPlugin({
 " Same as "Associated test" but instead of looking for a Test::Unit-like test,
 " it will look for specs.
 function! g:RubyRunSingleSpec(file)
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "rspec " . a:file
+  if filereadabe("./config/application.rb")
+    let output = system("which spring")
 
-  exec cmd
+    if !empty(output)
+      let cmd = "!"
+      let cmd .= "spring rspec " . a:file
+
+      exec cmd
+    endif
+  else
+    let cmd = g:RubyStartingCommand()
+    let cmd .= "rspec " . a:file
+
+    exec cmd
+  endif
 endfunction
 
 function! g:RubyRSpecTestName()
@@ -64,10 +87,21 @@ call g:AddExecrusPlugin({
 " LANE: alternative
 " Runs the spec associated with the current line.
 function! g:RubyRspecLineExecute()
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "rspec %:" . line('.')
+  if filereadabe("./config/application.rb")
+    let output = system("which spring")
 
-  exec cmd
+    if !empty(output)
+      let cmd = "!"
+      let cmd .= "spring rspec %:" . line('.')
+
+      exec cmd
+    endif
+  else
+    let cmd = g:RubyStartingCommand()
+    let cmd .= "rspec %:" . line('.')
+
+    exec cmd
+  endif
 endfunction
 
 call g:AddExecrusPlugin({
