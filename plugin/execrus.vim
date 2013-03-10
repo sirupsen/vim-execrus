@@ -122,9 +122,7 @@ function! g:AddExecrusPlugin(plugin, ...)
   let plug = s:SanityCheckPlugin(a:plugin)
 
   if a:0 > 0
-    for lane in a:000
-      call s:AddSingleExecerusPlugin(plug, lane)
-    endfor
+    call s:AddSingleExecerusPlugin(plug, a:000[0])
   else
     call s:AddSingleExecerusPlugin(plug, 'default')
   end
