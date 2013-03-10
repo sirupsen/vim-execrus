@@ -4,7 +4,7 @@ Execrus is your universal "run this!"-mapping. It's a framework for running
 external commands under different conditions. You control multiple "priority
 lanes" which can change their behavior depending on for instance which file
 you're in, location within the file and file type. Mappings are created to
-execute from a priority lane. Lanes are controled by customizing Execrus.
+execute from a priority lane. Lanes are controlled by customizing Execrus.
 
 For instance, if you're in a Ruby file and hit C-E, Execrus could run the
 current file with `ruby`. If the file has a test associated with it, it could
@@ -14,7 +14,7 @@ Running the test associated with it, has a much higher priority, or running
 `bundle install` if it's a Gemfile.
 
 Execrus supports multiple priority lanes. You could have a `documentation` lane
-that you map to another key. This could be responsible for documentaiton
+that you map to another key. This could be responsible for documentation
 lookups, e.g. looking up the word under the cursor in
 [Dash](https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12), or
 if a `ctag` exists, jump to that. Execrus is all about making smart choices
@@ -27,7 +27,7 @@ configuration. For example, in Ruby it runs the test under the cursor.
 
 ## Installation
 
-Install with vanilla Vim, Pathogen or Vundle. 
+Install with vanilla Vim, Pathogen or Vundle.
 
 Add a mapping to your `.vimrc`:
 
@@ -46,7 +46,7 @@ map <C-\> :call g:Execrus('alternative')<CR>
 
 ## Defaults
 
-There's a sane set of detault behavior for the `default` and `alternative` lane.
+There's a sane set of default behavior for the `default` and `alternative` lane.
 See the `ftplugin/` directory for these. The behavior for Ruby would be in
 `ftplugin/ruby.vim`. This is also where you customize the behavior for Execrus.
 Send your best changes upstream.
@@ -167,7 +167,7 @@ Execrus figures out what to execute, make sure your condition is fast.
 
 ### Priority lanes
 
-Execrus supports an arbitary amount of lanes. When you add a plugin
+Execrus supports an arbitrary amount of lanes. When you add a plugin
 with `g:AddExecrusPlugin` by default it is added to the `default` lane.
 Likewise, when you call `g:Execrus` with no arguments, it defaults to execute
 from the `default` lane. However, you can create and bind more lanes, e.g. say
@@ -178,7 +178,7 @@ We add it to the `walrus` lane:
 ```vim
 call g:AddExecrusPlugin({
   \'name': 'RI lookup',
-  \'exec': '!ri <cword>', 
+  \'exec': '!ri <cword>',
 \}, 'walrus')
 ```
 
