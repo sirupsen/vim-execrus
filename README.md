@@ -61,15 +61,15 @@ learn to customize it to take full advantage of it. To customize Execrus, you
 create and modify the file type in the plugin source you're interested in adding
 Execrus functionality to.
 
-For instance, a Ruby plugin should be in `ftplugin/ruby.vim` and
-might look something like this:
+For instance, a Ruby plugin could be in `ftplugin/ruby.vim` (see Structure
+section below) and might look something like this:
 
 ```vim
 call g:InitializeExecrusEnvironment()
 
 call g:AddExecrusPlugin({
-  \'name': 'Default Ruby', 
-  \'exec': '!ruby %', 
+  \'name': 'Default Ruby',
+  \'exec': '!ruby %',
   \'priority': 1
 \})
 ```
@@ -79,7 +79,7 @@ for the newlines added for readability purposes (`:help line-continuation`). If
   you are unsure what the file's name should be, run `:echo &filetype` when
   you're in a file of the type you want to create an Execrus plugin for. Your
   plugin should be `ftplugin/{whatever that outputs}.vim`.
-  
+
 
 Note that the priority for "Default Ruby" is 1. This means it has the lowest
 execution priotity. If no priority is added, it will default to priority 1. If
@@ -88,9 +88,9 @@ Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
 
 ```vim
 call g:AddExecrusPlugin({
-  \'name': 'Ruby Gemfile', 
-  \'exec': '!bundle install --gemfile=%', 
-  \'condition': 'Gemfile', 
+  \'name': 'Ruby Gemfile',
+  \'exec': '!bundle install --gemfile=%',
+  \'condition': 'Gemfile',
   \'priority': 2
 \})
 ```
@@ -101,6 +101,9 @@ string, otherwise this plugin is simply ignored. You can use Vim regex here.
 Since a Gemfile also has the `ruby` filetype there would normally be a conflict.
 Conflicts are resolved by the priority system. In this case, `Ruby Gemfile` has
 a higher priority (2 > 1), and thus it is run instead.
+
+The best way to learn more about customizing is to look at some of the existing
+plugins in `ftplugin`.
 
 ### Structure
 
