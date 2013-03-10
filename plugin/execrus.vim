@@ -1,9 +1,9 @@
 function! s:PluginMeetsCondition(plugin)
-  if has_key(a:plugin, 'condition')
-    if type(a:plugin['condition']) == type(function('tr'))
-      return !empty(call(a:plugin['condition'], []))
-    elseif type(a:plugin['condition']) == type("")
-      return match(expand('%'), a:plugin['condition']) != -1
+  if has_key(a:plugin, 'cond')
+    if type(a:plugin['cond']) == type(function('tr'))
+      return !empty(call(a:plugin['cond'], []))
+    elseif type(a:plugin['cond']) == type("")
+      return match(expand('%'), a:plugin['cond']) != -1
     endif
   else
     return 1
@@ -14,14 +14,16 @@ function! g:CreateExecutionPlan(plugs)
   let top = {}
   let sorted = []
   let plugins = deepcopy(a:plugs) " TODO
-  let top_index = 0
+  let top_index = len(plugins)
+
+  echo plugins
 
   for i in range(len(plugins))
     let plugin = plugins[i]
 
-    if !has_key(plugin, 'prev') || empty(plugin['prev'])
+    if !has_key(plugin, 'prev')
       if len(sorted) == 1
-        throw "More than one starting point"
+        throw 'More than one starting point: "' . plugin['name'] . '" and "' . top['name'] . '"'
       endif
 
       let top = plugin
@@ -29,6 +31,10 @@ function! g:CreateExecutionPlan(plugs)
       let top_index = i
     endif
   endfor
+
+  if top_index == len(plugins)
+    throw "No starting point found.."
+  endif
 
   call remove(plugins, top_index)
 
@@ -61,7 +67,9 @@ function! s:FindMaximumPriorityPlugin(plugins)
   let plugs = g:CreateExecutionPlan(a:plugins)
 
   for plugin in plugs
+    echom plugin['name']
     if s:PluginMeetsCondition(plugin)
+      echom "Good!"
       let first_plugin = plugin
       break
     endif
@@ -95,14 +103,6 @@ endfunction
 functio! s:SanityCheckPlugin(plugin)
   let plug = a:plugin
 
-  if !has_key(plug, 'priority')
-    let plug['priority'] = 1
-  end
-
-  if has_key(plug, 'cond') && !has_key(plug, 'condition')
-    let plug['condition'] = plug['cond']
-  endif
-
   if !has_key(plug, 'exec')
     throw "Plugin " . plug['name'] . " has no 'exec' property."
   endif
@@ -123,9 +123,7 @@ function! g:AddExecrusPlugin(plugin, ...)
 endfunction
 
 function! g:InitializeExecrusEnvironment()
-  if !exists("b:execrus_plugins")
-    let b:execrus_plugins = {}
-  endif
+  let b:execrus_plugins = {}
 endfunction
 
 function! g:Execrus(...)

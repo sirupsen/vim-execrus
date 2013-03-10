@@ -8,10 +8,10 @@ function! g:RunRubyTest()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Ruby Test',
-      \'exec': function("g:RunRubyTest"),
-      \'condition': '_test.rb$',
-      \'priority': 2
+  \'name': 'Ruby Test',
+  \'exec': function("g:RunRubyTest"),
+  \'condition': '_test.rb$',
+  \'prev': "Ruby Gemfile"
 \})
 
 " NAME: Associated test
@@ -38,10 +38,10 @@ function! g:RubyExecuteTestUnit()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Associated test',
-      \'exec': function("g:RubyExecuteTestUnit"),
-      \'condition': function("g:RubyTestUnitTestName"),
-      \'priority': 4
+  \'name': 'Associated test',
+  \'exec': function("g:RubyExecuteTestUnit"),
+  \'cond': function("g:RubyTestUnitTestName"),
+  \'prev': 'Rspec test'
 \})
 
 " NAME: Associated unit test
@@ -57,10 +57,10 @@ function! g:RubyExecuteTestUnitRails()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Associated test',
-      \'exec': function("g:RubyExecuteTestUnitRails"),
-      \'condition': function("g:RubyTestUnitRailsTestName"),
-      \'priority': 6
+  \'name': 'Associated unit test',
+  \'exec': function("g:RubyExecuteTestUnitRails"),
+  \'cond': function("g:RubyTestUnitRailsTestName"),
+  \'prev': 'Associated spec'
 \})
 
 " NAME: Test line
@@ -120,8 +120,7 @@ function! g:RubyTestLineExecute()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Spec line',
-      \'exec': function("g:RubyTestLineExecute"),
-      \'condition': '_test.rb$',
-      \'priority': 1
+  \'name': 'Test line',
+  \'exec': function("g:RubyTestLineExecute"),
+  \'cond': '_test.rb$'
 \}, 'alternative')
