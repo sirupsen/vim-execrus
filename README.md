@@ -187,3 +187,8 @@ Then we can bind the `walrus` lane, just like the default one:
 ```vim
 map <C-\> :call g:Execrus('walrus')<CR>
 ```
+
+## Authors
+
+* Simon Hørup Eskildsen
+* Teo Ljungberg
