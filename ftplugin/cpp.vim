@@ -11,9 +11,9 @@ function! g:DefaultCPlusPlusExecute()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Default C++',
-      \'exec': function("g:DefaultCPlusPlusExecute"),
-      \'priority': 1
+  \'name': 'Default C++',
+  \'exec': function("g:DefaultCPlusPlusExecute"),
+  \'priority': 1
 \})
 
 function! g:InformaticsCPlusPlusExecute()
@@ -26,8 +26,8 @@ function! g:InformaticsCPlusPlusCondition()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Informatics C++',
-      \'exec': function("g:InformaticsCPlusPlusExecute"),
-      \'condition': function('g:InformaticsCPlusPlusCondition'),
-      \'priority': 2
+  \'name': 'Informatics C++',
+  \'exec': function("g:InformaticsCPlusPlusExecute"),
+  \'condition': function('g:InformaticsCPlusPlusCondition'),
+  \'priority': 2
 \})
