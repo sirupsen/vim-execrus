@@ -10,9 +10,9 @@ function! s:PluginMeetsCondition(plugin)
   endif
 endfunction
 
-function! g:CreateExecutionPlan(plugs)
-  if exists("b:parsed_execrus_plugins")
-    return b:parsed_execrus_plugins
+function! g:CreateExecutionPlan(plugs, lane)
+  if exists("b:parsed_execrus_plugins") && has_key(b:parsed_execrus_plugins, a:lane)
+    return b:parsed_execrus_plugins[a:lane]
   end
 
   let top = {}
@@ -59,12 +59,17 @@ function! g:CreateExecutionPlan(plugs)
     endif
   endwhile
 
-  let b:parsed_execrus_plugins = reverse(sorted)
-  return b:parsed_execrus_plugins
+  if !exists("b:parsed_execrus_plugins")
+    let b:parsed_execrus_plugins = {}
+  endif
+
+  let b:parsed_execrus_plugins[a:lane] = reverse(sorted)
+
+  return b:parsed_execrus_plugins[a:lane]
 endfunction
 
-function! s:FindMaximumPriorityPlugin(plugins)
-  let plugs = g:CreateExecutionPlan(a:plugins)
+function! s:FindMaximumPriorityPlugin(plugins, lane)
+  let plugs = g:CreateExecutionPlan(a:plugins, a:lane)
 
   for plugin in plugs
     if s:PluginMeetsCondition(plugin)
@@ -137,7 +142,7 @@ function! g:Execrus(...)
     return
   endif
 
-  let plugin = s:FindMaximumPriorityPlugin(b:execrus_plugins[lane])
+  let plugin = s:FindMaximumPriorityPlugin(b:execrus_plugins[lane], lane)
 
   if type(plugin) == type({})
     call s:ExecutePlugin(plugin)
