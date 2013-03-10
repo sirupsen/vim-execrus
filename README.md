@@ -114,16 +114,11 @@ plugins in `ftplugin`, and read the rest of this README.
 
 All plugins are stored in `ftplugin/`, ordered by filetypes. When you open a
 file in Vim, all files matching `ftplugin/<filetype>*` are loaded. Thus
-subdirectories can be used to structure the project further. If a subdirectory
-is created for a filetype, then `ftplugin/<filetype>.vim` will still exist and
-abuse that it will be the first file being loaded. Thus it is responsible for
-things like:
-
-* Settings up the environment by calling `call g:InitializeExecrusEnvironment()`.
-* Declare shared functions
+subdirectories can be used to structure the project further. However, is a
+filetype only has few plugins they're all stored in `ftplugin/<filetype>.vim`.
 
 The documentation for each filetype is found at `ftplugin/<filetype>/README.md`.
-If the number of plugins for the filetype is small, see
+If the number of plugins for the filetype is small, it's along with the code in
 `ftplugin/<filetype>.vim`.
 
 ### Functions
