@@ -26,6 +26,10 @@ function! g:RubyRunSingleSpec(file)
 endfunction
 
 function! g:RubyRSpecTestName()
+  if !isdirectory('./spec')
+    return 0
+  end
+
   return g:RubyTestName("spec", "spec")
 endfunction
 
@@ -39,25 +43,6 @@ call g:AddExecrusPlugin({
   \'exec': function("g:RubyExecuteRspec"),
   \'cond': function("g:RubyRSpecTestName"),
   \'prev': 'Associated test'
-\})
-
-" NAME: Associated unit spec
-" LANE: default
-" Same as "Associated test", but looks in the test/unit directory instead.
-function! g:RubyTestUnitRailsTestNameSpec()
-  return g:RubyTestName("spec/unit", "spec")
-endfunction
-
-function! g:RubyExecuteTestUnitRailsSpec()
-  let test_name = g:RubyTestUnitRailsTestNameSpec()
-  call g:RubyRunSingleSpec(test_name)
-endfunction
-
-call g:AddExecrusPlugin({
-  \'name': 'Associated unit spec',
-  \'exec': function("g:RubyExecuteTestUnitRailsSpec"),
-  \'cond': function("g:RubyTestUnitRailsTestNameSpec"),
-  \'prev': 'Associated unit test'
 \})
 
 " NAME: Spec line

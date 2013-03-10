@@ -29,7 +29,18 @@ function! g:RubyRunSingleTest(path)
 endfunction
 
 function! g:RubyTestUnitTestName()
-  return g:RubyTestName("test", "test")
+  if !isdirectory('./test')
+    return 0
+  end
+
+  let prefixes = ["", "/unit", "/functional"]
+
+  for prefix in prefixes
+    let name = g:RubyTestName("test" . prefix, "test")
+    if !empty(name)
+      return name
+    endif
+  endfor
 endfunction
 
 function! g:RubyExecuteTestUnit()
@@ -42,25 +53,6 @@ call g:AddExecrusPlugin({
   \'exec': function("g:RubyExecuteTestUnit"),
   \'cond': function("g:RubyTestUnitTestName"),
   \'prev': 'Rspec test'
-\})
-
-" NAME: Associated unit test
-" LANE: default
-" Same as "Associated test", but looks in the test/unit directory instead.
-function! g:RubyTestUnitRailsTestName()
-  return g:RubyTestName("test/unit", "test")
-endfunction
-
-function! g:RubyExecuteTestUnitRails()
-  let test_name = g:RubyTestUnitRailsTestName()
-  call g:RubyRunSingleTest(test_name)
-endfunction
-
-call g:AddExecrusPlugin({
-  \'name': 'Associated unit test',
-  \'exec': function("g:RubyExecuteTestUnitRails"),
-  \'cond': function("g:RubyTestUnitRailsTestName"),
-  \'prev': 'Associated spec'
 \})
 
 " NAME: Test line

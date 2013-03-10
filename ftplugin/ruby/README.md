@@ -22,16 +22,12 @@ the lowest priority plugin first.
     named `test/lib/foo/bar/term_test.rb`. If that test doesn't exist, it will
     pop the namespace queue and try `test/foo/bar/term_test.rb`. It keeps
     popping until it reaches `test/term_test.rb`. If that file doesn't exist, it
-    gives up and hands it off to something of lower priority.
+    will try things like `test/unit/<namespaces>` and
+    `test/functional/<namespaces>`. Though, at some point it will give up and
+    hand it off to the next link in the chain.
 6. Run associated RSpec spec
   - Same as "Run associated Test::Unit test" only it searches in `spec/`
     instead.
-7. Run associated Test::Unit unit test
-  - Inside Rails and other environments your tests might exist in the
-    `test/unit` directory. This basically does the same as "Run associated
-    Test::Unit test" only its prefix directory is `test/unit` instead of `test`.
-8. Run assoicated RSpec unit test
-  - Just like "Run associated Test::Unit unit test", but for RSpec.
 
 ## Alternative
 
