@@ -99,6 +99,22 @@ Since a Gemfile also has the `ruby` filetype there would normally be a conflict.
 Conflicts are resolved by the priority system. In this case, `Ruby Gemfile` has
 a higher priority (2 > 1), and thus it is run instead.
 
+### Structure
+
+All plugins are stored in `ftplugin/`, ordered by filetypes. When you open a
+file in Vim, all files matching `ftplugin/<filetype>*` are loaded. Thus
+subdirectories can be used to structure the project further. If a subdirectory
+is created for a filetype, then `ftplugin/<filetype>.vim` will still exist and
+abuse that it will be the first file being loaded. Thus it is responsible for
+things like:
+
+* Settings up the environment by calling `call g:InitializeExecrusEnvironment()`.
+* Declare shared functions
+
+The documentation for each filetype is found at `ftplugin/<filetype>/README.md`.
+If the number of plugins for the filetype is small, see
+`ftplugin/<filetype>.vim`.
+
 ### Functions
 
 Execrus shall not limit you. Therefore the execution command (`exec`) and
