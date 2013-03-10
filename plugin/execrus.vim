@@ -11,6 +11,10 @@ function! s:PluginMeetsCondition(plugin)
 endfunction
 
 function! g:CreateExecutionPlan(plugs)
+  if exists("b:parsed_execrus_plugins")
+    return b:parsed_execrus_plugins
+  end
+
   let top = {}
   let sorted = []
   let plugins = deepcopy(a:plugs)
@@ -55,7 +59,8 @@ function! g:CreateExecutionPlan(plugs)
     endif
   endwhile
 
-  return reverse(sorted)
+  let b:parsed_execrus_plugins = reverse(sorted)
+  return b:parsed_execrus_plugins
 endfunction
 
 function! s:FindMaximumPriorityPlugin(plugins)
