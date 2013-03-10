@@ -1,5 +1,3 @@
-call g:InitializeExecrusEnvironment()
-
 function! g:RubyStartingCommand()
   let cmd = "!"
 

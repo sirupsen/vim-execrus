@@ -1,5 +1,3 @@
-call g:InitializeExecrusEnvironment()
-
 function! s:DefaultCPlusPlusCompile()
   let s:executeable = substitute(expand('%'), ".cpp", "", "")
   let s:compile_command = "!clang++ " . expand('%') . " -o " . s:executeable . " -O2 -std=c++0x -stdlib=libc++ -pedantic"

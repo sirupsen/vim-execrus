@@ -86,6 +86,10 @@ function! s:ExecutePlugin(plugin)
 endfunction
 
 function! s:AddSingleExecerusPlugin(plugin, lane)
+  if !exists("b:execrus_plugins")
+    let b:execrus_plugins = {}
+  endif
+
   if !has_key(b:execrus_plugins, a:lane)
     let b:execrus_plugins[a:lane] = []
   endif
@@ -119,12 +123,6 @@ function! g:AddExecrusPlugin(plugin, ...)
   else
     call s:AddSingleExecerusPlugin(plug, 'default')
   end
-endfunction
-
-function! g:InitializeExecrusEnvironment()
-  if !exists("b:execrus_plugins")
-    let b:execrus_plugins = {}
-  endif
 endfunction
 
 function! g:Execrus(...)
