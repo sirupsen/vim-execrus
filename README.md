@@ -69,41 +69,46 @@ call g:InitializeExecrusEnvironment()
 
 call g:AddExecrusPlugin({
   \'name': 'Default Ruby',
-  \'exec': '!ruby %',
-  \'priority': 1
+  \'exec': '!ruby %'
 \})
 ```
 
 It will just execute `ruby {filename}`. Note that the backlashes are required
 for the newlines added for readability purposes (`:help line-continuation`). If
-  you are unsure what the file's name should be, run `:echo &filetype` when
-  you're in a file of the type you want to create an Execrus plugin for. Your
-  plugin should be `ftplugin/{whatever that outputs}.vim`.
+you are unsure what the file's name should be, run `:echo &filetype` when
+you're in a file of the type you want to create an Execrus plugin for. Your
+plugin should be `ftplugin/{whatever that outputs}.vim`.
 
+### Priorities
 
-Note that the priority for "Default Ruby" is 1. This means it has the lowest
-execution priotity. If no priority is added, it will default to priority 1. If
-we were to create another Ruby plugin to execute
-Gemfiles, we'd add the following to `ftplugin/ruby.vim`:
+Priorities are the heart of Execrus. Since Execrus is all about executing the
+right thing in the right context, it has a dependency system. It works by
+specifying whatever has immediately lower priority. Sort of like a linked list.
+The first entry in the chain (i.e. the plugin with the lowest priority) has no
+reference to a previous item. Execrus resolves whatever it should execute by
+starting from the end of this linked list, when it finds something whose
+condition it satisfies, it executes it and stops.
+
+If we were to create another Ruby plugin to execute Gemfiles, it is still a file
+of the Ruby filetype. However, it has a higher priority than just executing a
+Ruby file with the interpreter. Therefore, we'd add the following to
+`ftplugin/ruby.vim`:
 
 ```vim
 call g:AddExecrusPlugin({
   \'name': 'Ruby Gemfile',
   \'exec': '!bundle install --gemfile=%',
   \'condition': 'Gemfile',
-  \'priority': 2
+  \'prev': "Default Ruby"
 \})
 ```
 
-The new option here is `condition`. The current file name must match this
-string, otherwise this plugin is simply ignored. You can use Vim regex here.
-
-Since a Gemfile also has the `ruby` filetype there would normally be a conflict.
-Conflicts are resolved by the priority system. In this case, `Ruby Gemfile` has
-a higher priority (2 > 1), and thus it is run instead.
+Another new option here is `cond`. This is a condition. The current file name
+must match this string, otherwise this plugin is simply ignored. You can use Vim
+regex here.
 
 The best way to learn more about customizing is to look at some of the existing
-plugins in `ftplugin`.
+plugins in `ftplugin`, and read the rest of this README.
 
 ### Structure
 
@@ -144,15 +149,21 @@ endfunction
 
 call g:AddExecrusPlugin({
   \'name': 'Ruby Test',
-  \'exec': function('g:RubyTestExecute'), 
-  \'condition': '_test.rb$', 
-  \'priority': 2
+  \'exec': function('g:RubyTestExecute'),
+  \'cond': '_test.rb$',
+  \'prev': 'Ruby Gemfile'
 \})
 ```
 
 Note your function is required to have the global scope (`g:` prefix, see `:help
 internval-variables`) since it will be called from a variety of different
-scopes.
+scopes. Also note that `prev` here is set to Ruby Gemfile. Strictly, it doesn't
+have a higher priority since the two would never be able trigger at once because
+of the file match conditions, but a dependency chain is required anyway.
+
+A condition (`cond`) function is done the same way. It should return `1` for
+true and `0` for false. Because your conditions will be traversed a lot when
+Execrus figures out what to execute, make sure your condition is fast.
 
 ### Priority lanes
 
