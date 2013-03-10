@@ -98,7 +98,7 @@ Ruby file with the interpreter. Therefore, we'd add the following to
 call g:AddExecrusPlugin({
   \'name': 'Ruby Gemfile',
   \'exec': '!bundle install --gemfile=%',
-  \'condition': 'Gemfile',
+  \'cond': 'Gemfile',
   \'prev': "Default Ruby"
 \})
 ```
