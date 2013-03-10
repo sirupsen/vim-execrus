@@ -25,10 +25,11 @@ function! g:CreateExecutionPlan(plugs)
 
       let top = plugin
       let sorted += [top]
+      let top_index = i
     endif
   endfor
 
-  if !empty(sorted)
+  if empty(sorted)
     throw "No starting point found.."
   endif
 
@@ -58,22 +59,13 @@ function! g:CreateExecutionPlan(plugs)
 endfunction
 
 function! s:FindMaximumPriorityPlugin(plugins)
-  let first_plugin = {}
-
   let plugs = g:CreateExecutionPlan(a:plugins)
 
   for plugin in plugs
-    echom plugin['name']
     if s:PluginMeetsCondition(plugin)
-      echom "Good!"
-      let first_plugin = plugin
-      break
+      return plugin
     endif
   endfor
-
-  if first_plugin != {}
-    return first_plugin
-  endif
 endfunction
 
 function! s:ExecutePlugin(plugin)
