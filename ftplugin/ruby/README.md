@@ -48,5 +48,5 @@ the lowest priority plugin first.
     run only that test.
 2. Run RSpec spec under cursor
   - Same as "Run Test::Unit test under cursor", but for rspec specs.
-3. Run Spring Rspec under cursor with Spring
-  - Same as "Run Test::Unit test under cursor", but with spring rspec.
+3. Run Spring Rspec under cursor
+  - Same as "Run RSpec spec under cursor", but with spring rspec.

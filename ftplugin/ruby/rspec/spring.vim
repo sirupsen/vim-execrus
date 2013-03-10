@@ -54,22 +54,22 @@ function! g:RubyExecuteSpringRspec()
 endfunction
 
 call g:AddExecrusPlugin({
-  \'name': 'Associated Spring Rspec spec',
-  \'exec': function("g:RubyExecuteSpringRspec"),
-  \'condition': function("g:RubyRSpecTestName"),
-  \'priority': 8
-\})
-
-call g:AddExecrusPlugin({
   \'name': 'Spring Rspec test',
   \'exec': function("RubySpringRspecExecute"),
   \'cond': 'spec.rb$',
-  \'priority': 10
+  \'prev': "Rspec test"
 \})
 
 call g:AddExecrusPlugin({
   \'name': 'Spring Rspec test line',
   \'exec': function("RubySpringRspecLineExecute"),
   \'cond': 'spec.rb$',
-  \'priority': 3
+  \'prev': "Spec Line"
 \}, 'alternative')
+
+call g:AddExecrusPlugin({
+  \'name': 'Associated Spring Rspec spec',
+  \'exec': function("g:RubyExecuteSpringRspec"),
+  \'condition': function("g:RubyRSpecTestName"),
+  \'prev': "Associated spec"
+\})
