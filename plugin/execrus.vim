@@ -10,17 +10,65 @@ function! s:PluginMeetsCondition(plugin)
   endif
 endfunction
 
-function! s:FindMaximumPriorityPlugin(plugins)
-  let max_plugin = {'priority': -1}
+function! g:CreateExecutionPlan(plugs)
+  let top = {}
+  let sorted = []
+  let plugins = deepcopy(a:plugs) " TODO
+  let top_index = 0
 
-  for plugin in a:plugins
-    if plugin['priority'] > max_plugin['priority'] && s:PluginMeetsCondition(plugin)
-      let max_plugin = plugin
+  for i in range(len(plugins))
+    let plugin = plugins[i]
+
+    if !has_key(plugin, 'prev') || empty(plugin['prev'])
+      if len(sorted) == 1
+        throw "More than one starting point"
+      endif
+
+      let top = plugin
+      let sorted += [top]
+      let top_index = i
     endif
   endfor
 
-  if max_plugin['priority'] != -1
-    return max_plugin
+  call remove(plugins, top_index)
+
+  while !empty(plugins)
+    let good = 0
+
+    for i in range(len(plugins))
+      let plugin = plugins[i]
+
+      if plugin['prev'] == top['name']
+        let sorted += [plugin]
+        let top = plugin
+        let good = 1
+        call remove(plugins, i)
+        break
+      endif
+    endfor
+
+    if !good
+      throw "Bad directions given.."
+    endif
+  endwhile
+
+  return reverse(sorted)
+endfunction
+
+function! s:FindMaximumPriorityPlugin(plugins)
+  let first_plugin = {}
+
+  let plugs = g:CreateExecutionPlan(a:plugins)
+
+  for plugin in plugs
+    if s:PluginMeetsCondition(plugin)
+      let first_plugin = plugin
+      break
+    endif
+  endfor
+
+  if first_plugin != {}
+    return first_plugin
   endif
 endfunction
 
@@ -37,12 +85,11 @@ function! s:ExecutePlugin(plugin)
 endfunction
 
 function! s:AddSingleExecerusPlugin(plugin, lane)
-  if has_key(b:execrus_plugins, a:lane)
-    let b:execrus_plugins[a:lane] += [a:plugin]
-  else
+  if !has_key(b:execrus_plugins, a:lane)
     let b:execrus_plugins[a:lane] = []
-    let b:execrus_plugins[a:lane] += [a:plugin]
   endif
+
+  let b:execrus_plugins[a:lane] += [a:plugin]
 endfunction
 
 functio! s:SanityCheckPlugin(plugin)
