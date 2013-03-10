@@ -1,26 +1,78 @@
 function! s:PluginMeetsCondition(plugin)
-  if has_key(a:plugin, 'condition')
-    if type(a:plugin['condition']) == type(function('tr'))
-      return !empty(call(a:plugin['condition'], []))
-    elseif type(a:plugin['condition']) == type("")
-      return match(expand('%'), a:plugin['condition']) != -1
+  if has_key(a:plugin, 'cond')
+    if type(a:plugin['cond']) == type(function('tr'))
+      return !empty(call(a:plugin['cond'], []))
+    elseif type(a:plugin['cond']) == type("")
+      return match(expand('%'), a:plugin['cond']) != -1
     endif
   else
     return 1
   endif
 endfunction
 
-function! s:FindMaximumPriorityPlugin(plugins)
-  let max_plugin = {'priority': -1}
+function! g:CreateExecutionPlan(plugs)
+  let top = {}
+  let sorted = []
+  let plugins = a:plugs
 
-  for plugin in a:plugins
-    if plugin['priority'] > max_plugin['priority'] && s:PluginMeetsCondition(plugin)
-      let max_plugin = plugin
+  for i in range(len(plugins))
+    let plugin = plugins[i]
+
+    if !has_key(plugin, 'prev')
+      if len(sorted) == 1
+        throw 'More than one starting point: "' . plugin['name'] . '" and "' . top['name'] . '"'
+      endif
+
+      let top = plugin
+      let sorted += [top]
     endif
   endfor
 
-  if max_plugin['priority'] != -1
-    return max_plugin
+  if !empty(sorted)
+    throw "No starting point found.."
+  endif
+
+  call remove(plugins, top_index)
+
+  while !empty(plugins)
+    let good = 0
+
+    for i in range(len(plugins))
+      let plugin = plugins[i]
+
+      if plugin['prev'] == top['name']
+        let sorted += [plugin]
+        let top = plugin
+        let good = 1
+        call remove(plugins, i)
+        break
+      endif
+    endfor
+
+    if !good
+      throw "Bad directions given.."
+    endif
+  endwhile
+
+  return reverse(sorted)
+endfunction
+
+function! s:FindMaximumPriorityPlugin(plugins)
+  let first_plugin = {}
+
+  let plugs = g:CreateExecutionPlan(a:plugins)
+
+  for plugin in plugs
+    echom plugin['name']
+    if s:PluginMeetsCondition(plugin)
+      echom "Good!"
+      let first_plugin = plugin
+      break
+    endif
+  endfor
+
+  if first_plugin != {}
+    return first_plugin
   endif
 endfunction
 
@@ -37,24 +89,15 @@ function! s:ExecutePlugin(plugin)
 endfunction
 
 function! s:AddSingleExecerusPlugin(plugin, lane)
-  if has_key(b:execrus_plugins, a:lane)
-    let b:execrus_plugins[a:lane] += [a:plugin]
-  else
+  if !has_key(b:execrus_plugins, a:lane)
     let b:execrus_plugins[a:lane] = []
-    let b:execrus_plugins[a:lane] += [a:plugin]
   endif
+
+  let b:execrus_plugins[a:lane] += [a:plugin]
 endfunction
 
 functio! s:SanityCheckPlugin(plugin)
   let plug = a:plugin
-
-  if !has_key(plug, 'priority')
-    let plug['priority'] = 1
-  end
-
-  if has_key(plug, 'cond') && !has_key(plug, 'condition')
-    let plug['condition'] = plug['cond']
-  endif
 
   if !has_key(plug, 'exec')
     throw "Plugin " . plug['name'] . " has no 'exec' property."
@@ -76,9 +119,7 @@ function! g:AddExecrusPlugin(plugin, ...)
 endfunction
 
 function! g:InitializeExecrusEnvironment()
-  if !exists("b:execrus_plugins")
-    let b:execrus_plugins = {}
-  endif
+  let b:execrus_plugins = {}
 endfunction
 
 function! g:Execrus(...)

@@ -13,7 +13,6 @@ endfunction
 call g:AddExecrusPlugin({
   \'name': 'Default C++',
   \'exec': function("g:DefaultCPlusPlusExecute"),
-  \'priority': 1
 \})
 
 function! g:InformaticsCPlusPlusExecute()
@@ -29,5 +28,5 @@ call g:AddExecrusPlugin({
   \'name': 'Informatics C++',
   \'exec': function("g:InformaticsCPlusPlusExecute"),
   \'condition': function('g:InformaticsCPlusPlusCondition'),
-  \'priority': 2
+  \'prev': 'Default C++'
 \})

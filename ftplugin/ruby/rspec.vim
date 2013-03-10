@@ -8,10 +8,10 @@ function! g:RunRubySpec()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Rspec test',
-      \'exec': function("g:RunRubySpec"),
-      \'condition': '_spec.rb$',
-      \'priority': 3
+  \'name': 'Rspec test',
+  \'exec': function("g:RunRubySpec"),
+  \'cond': '_spec.rb$',
+  \'prev': 'Ruby test'
 \})
 
 " NAME: Associated spec
@@ -35,10 +35,10 @@ function! g:RubyExecuteRspec()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Associated spec',
-      \'exec': function("g:RubyExecuteRspec"),
-      \'condition': function("g:RubyRSpecTestName"),
-      \'priority': 5
+  \'name': 'Associated spec',
+  \'exec': function("g:RubyExecuteRspec"),
+  \'cond': function("g:RubyRSpecTestName"),
+  \'prev': 'Associated test'
 \})
 
 " NAME: Associated unit spec
@@ -54,10 +54,10 @@ function! g:RubyExecuteTestUnitRailsSpec()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Associated test',
-      \'exec': function("g:RubyExecuteTestUnitRailsSpec"),
-      \'condition': function("g:RubyTestUnitRailsTestNameSpec"),
-      \'priority': 7
+  \'name': 'Associated unit spec',
+  \'exec': function("g:RubyExecuteTestUnitRailsSpec"),
+  \'cond': function("g:RubyTestUnitRailsTestNameSpec"),
+  \'prev': 'Associated unit test'
 \})
 
 " NAME: Spec line
@@ -71,8 +71,8 @@ function! g:RubyRspecLineExecute()
 endfunction
 
 call g:AddExecrusPlugin({
-      \'name': 'Spec line',
-      \'exec': function("g:RubyRspecLineExecute"),
-      \'condition': '_spec.rb$',
-      \'priority': 2
+  \'name': 'Spec line',
+  \'exec': function("g:RubyRspecLineExecute"),
+  \'cond': '_spec.rb$',
+  \'prev': 'Test line'
 \}, 'alternative')

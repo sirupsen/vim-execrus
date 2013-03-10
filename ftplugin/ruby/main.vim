@@ -2,9 +2,8 @@
 " LANE: default
 " This plugin runs the current file with Ruby.
 call g:AddExecrusPlugin({
-      \'name': 'Default Ruby',
-      \'exec': '!ruby %',
-      \'priority': 1
+  \'name': 'Default Ruby',
+  \'exec': '!ruby %'
 \})
 
 " NAME: Ruby Gemfile
@@ -12,8 +11,8 @@ call g:AddExecrusPlugin({
 " If the current file is a Gemfile, then run bundle install against
 " it.
 call g:AddExecrusPlugin({
-      \'name': 'Ruby Gemfile',
-      \'exec': '!bundle install --gemfile=%',
-      \'condition': 'Gemfile',
-      \'priority': 3
+  \'name': 'Ruby Gemfile',
+  \'exec': '!bundle install --gemfile=%',
+  \'cond': 'Gemfile',
+  \'prev': "Default Ruby"
 \})
