@@ -85,6 +85,12 @@ function! s:AddSingleExecerusPlugin(plugin, lane)
     let b:execrus_plugins[a:lane] = []
   endif
 
+  for other_plugin in b:execrus_plugins[a:lane]
+    if other_plugin['name'] == a:plugin['name']
+      return
+    endif
+  endfor
+
   let b:execrus_plugins[a:lane] += [a:plugin]
 endfunction
 
@@ -111,7 +117,9 @@ function! g:AddExecrusPlugin(plugin, ...)
 endfunction
 
 function! g:InitializeExecrusEnvironment()
-  let b:execrus_plugins = {}
+  if !exists("b:execrus_plugins")
+    let b:execrus_plugins = {}
+  endif
 endfunction
 
 function! g:Execrus(...)
