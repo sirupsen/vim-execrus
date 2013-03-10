@@ -15,12 +15,12 @@ the lowest priority plugin first.
   - If the current file is a spec (matching `/_spec.rb/`) it will execute it as
     a spec with `spec`.
 4. Run associated Test::Unit test
-  - If the current file has a test associated with it, it will run that
-    test. For instance, if you're in `lib/foo/bar/term.rb` it will look for a
-    test named `test/lib/foo/bar/term.rb`. If that test doesn't exist, it will
-    pop the namespace queue and try `test/foo/bar/term.rb`. It keeps popping
-    until `test/term.rb`. If that file doesn't exist, it gives up and hands it
-    off to something of lower priority.
+  - If the current file has a test associated with it, it will run that test.
+    For instance, if you're in `lib/foo/bar/term.rb` it will look for a test
+    named `test/lib/foo/bar/term_test.rb`. If that test doesn't exist, it will
+    pop the namespace queue and try `test/foo/bar/term_test.rb`. It keeps
+    popping until it reaches `test/term_test.rb`. If that file doesn't exist, it
+    gives up and hands it off to something of lower priority.
 5. Run associated RSpec spec
   - Same as "Run associated Test::Unit test" only it searches in `spec/`
     instead.
