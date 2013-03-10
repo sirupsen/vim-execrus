@@ -3,13 +3,15 @@
 " LANE: Default
 " If the current file is a spec, then run it with spring rspec.
 function! RubySpringRspecExecute()
-  let output = system("which spring")
+  if filereadabe("./config/application.rb")
+    let output = system("which spring")
 
-  if !empty(output)
-    let cmd = "!"
-    let cmd .= "spring rspec %"
+    if !empty(output)
+      let cmd = "!"
+      let cmd .= "spring rspec %"
 
-    exec cmd
+      exec cmd
+    endif
   endif
 endfunction
 
@@ -17,13 +19,15 @@ endfunction
 " LANE: Alternate
 " If the current file is a spec, then run it with spring rspec.
 function! RubySpringRspecLineExecute()
-  let output = system("which spring")
+  if filereadabe("./config/application.rb")
+    let output = system("which spring")
 
-  if !empty(output)
-    let cmd = "!"
-    let cmd .= "spring rspec %:" . line('.')
+    if !empty(output)
+      let cmd = "!"
+      let cmd .= "spring rspec %:" . line('.')
 
-    exec cmd
+      exec cmd
+    endif
   endif
 endfunction
 
@@ -32,10 +36,16 @@ endfunction
 " Same as "Associated test" but instead of looking for a Test::Unit-like test,
 " it will look for specs.
 function! g:RubyRunSingleSpringRspecSpec(file)
-  let cmd = "!"
-  let cmd .= "spring rspec " . a:file
+  if filereadabe("./config/application.rb")
+    let output = system("which spring")
 
-  exec cmd
+    if !empty(output)
+      let cmd = "!"
+      let cmd .= "spring rspec " . a:file
+
+      exec cmd
+    endif
+  endif
 endfunction
 
 function! g:RubyExecuteSpringRspec()
