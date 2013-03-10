@@ -54,7 +54,7 @@ function! g:RubyExecuteSpringRspec()
 endfunction
 
 call g:AddExecrusPlugin({
-  \'name': 'Associated spec',
+  \'name': 'Associated Spring Rspec spec',
   \'exec': function("g:RubyExecuteSpringRspec"),
   \'condition': function("g:RubyRSpecTestName"),
   \'priority': 8
