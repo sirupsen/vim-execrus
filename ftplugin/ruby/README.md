@@ -34,18 +34,7 @@ the lowest priority plugin first.
 ## Alternative
 
 1. Run Test::Unit test under cursor
-  - Runs the test under the cursor. E.g. if your cursor is at:
-  ```ruby
-  def test_something
-    assert_equal 4, 2 + 2 ▍
-  end
-  ```
-  It will execute only the `test_something` test. Also supports the newer
-  Test::Unit syntax:
-  ```ruby
-  test 'something' do
-    assert_equal 9, 6 + 3 ▍
-  end
-  ```
+  - Runs the test under the cursor. If your cursor is inside a test, it will
+    run only that test.
 2. Run RSpec spec under cursor
   - Same as "Run Test::Unit test under cursor", but for rspec specs.
