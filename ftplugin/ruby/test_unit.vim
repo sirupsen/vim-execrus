@@ -10,7 +10,7 @@ endfunction
 call g:AddExecrusPlugin({
   \'name': 'Ruby Test',
   \'exec': function("g:RunRubyTest"),
-  \'condition': '_test.rb$',
+  \'cond': '_test.rb$',
   \'prev': "Ruby Gemfile"
 \})
 

@@ -27,6 +27,6 @@ endfunction
 call g:AddExecrusPlugin({
   \'name': 'Informatics C++',
   \'exec': function("g:InformaticsCPlusPlusExecute"),
-  \'condition': function('g:InformaticsCPlusPlusCondition'),
+  \'cond': function('g:InformaticsCPlusPlusCondition'),
   \'prev': 'Default C++'
 \})
