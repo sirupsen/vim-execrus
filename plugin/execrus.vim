@@ -13,7 +13,7 @@ endfunction
 function! g:CreateExecutionPlan(plugs)
   let top = {}
   let sorted = []
-  let plugins = a:plugs
+  let plugins = deepcopy(a:plugs)
 
   for i in range(len(plugins))
     let plugin = plugins[i]
