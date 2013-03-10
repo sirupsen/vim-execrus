@@ -13,10 +13,7 @@ endfunction
 function! g:CreateExecutionPlan(plugs)
   let top = {}
   let sorted = []
-  let plugins = deepcopy(a:plugs) " TODO
-  let top_index = len(plugins)
-
-  echo plugins
+  let plugins = a:plugs
 
   for i in range(len(plugins))
     let plugin = plugins[i]
@@ -28,11 +25,10 @@ function! g:CreateExecutionPlan(plugs)
 
       let top = plugin
       let sorted += [top]
-      let top_index = i
     endif
   endfor
 
-  if top_index == len(plugins)
+  if !empty(sorted)
     throw "No starting point found.."
   endif
 
