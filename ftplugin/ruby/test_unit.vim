@@ -1,6 +1,6 @@
 " NAME: Ruby Test
+" LANE: default
 " If the current file is a test, then run it.
-
 function! g:RunRubyTest()
   let cmd = g:RubyStartingCommand()
   let cmd .= "ruby -Itest %"
@@ -15,6 +15,7 @@ call g:AddExecrusPlugin({
 \})
 
 " NAME: Associated test
+" LANE: default
 " Will look for an associated test. It will favor a deep namespace. For
 " instance, if you run this from `lib/something/input/file.rb` it will try
 " `test/lib/something/input/file_test.rb` first. If that file doesn't exist,
@@ -44,6 +45,7 @@ call g:AddExecrusPlugin({
 \})
 
 " NAME: Associated unit test
+" LANE: default
 " Same as "Associated test", but looks in the test/unit directory instead.
 function! g:RubyTestUnitRailsTestName()
   return g:RubyTestName("test/unit", "test")
@@ -61,16 +63,8 @@ call g:AddExecrusPlugin({
       \'priority': 6
 \})
 
-" LANE: ALTERNATIVE
-"
-" Sorted by priority (lowest priority first)
-"
-"   * Run test::unit test associated with the current line
-"   * Run spec associated with the current line
-"
-" See each plugin for an in-depth description of each plugin.
-
-" Name: Test line
+" NAME: Test line
+" LANE: alternative
 " Run the Test::Unit test that is associated with the current line, e.g. for the
 " test (where | is the cursor):
 "

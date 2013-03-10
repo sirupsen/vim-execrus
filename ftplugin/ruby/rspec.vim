@@ -1,6 +1,6 @@
 " NAME: Rspec test
+" LANE: default
 " If the current file is a spec, then run it with rspec.
-
 function! g:RunRubySpec()
   let cmd = g:RubyStartingCommand()
   let cmd .= "rspec %"
@@ -15,6 +15,7 @@ call g:AddExecrusPlugin({
 \})
 
 " NAME: Associated spec
+" LANE: default
 " Same as "Associated test" but instead of looking for a Test::Unit-like test,
 " it will look for specs.
 function! g:RubyRunSingleSpec(file)
@@ -41,6 +42,7 @@ call g:AddExecrusPlugin({
 \})
 
 " NAME: Associated unit spec
+" LANE: default
 " Same as "Associated test", but looks in the test/unit directory instead.
 function! g:RubyTestUnitRailsTestNameSpec()
   return g:RubyTestName("spec/unit", "spec")
@@ -59,6 +61,7 @@ call g:AddExecrusPlugin({
 \})
 
 " NAME: Spec line
+" LANE: alternative
 " Runs the spec associated with the current line.
 function! g:RubyRspecLineExecute()
   let cmd = g:RubyStartingCommand()
