@@ -1,6 +1,6 @@
 function! s:DefaultCPlusPlusCompile()
-  let s:executeable = substitute(expand('%'), ".cpp", "", "")
-  let s:compile_command = "!clang++ " . expand('%') . " -o " . s:executeable . " -O2 -std=c++0x -stdlib=libc++ -pedantic"
+  let s:executeable = substitute(expand('%:p'), ".cpp", "", "")
+  let s:compile_command = "!clang++ " . expand('%:p') . " -o " . s:executeable . " -O2 -std=c++0x -stdlib=libc++ -pedantic"
 endfunction
 
 function! g:DefaultCPlusPlusExecute()
