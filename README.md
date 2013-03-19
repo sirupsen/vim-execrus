@@ -56,6 +56,7 @@ languages.
 
 Examples:
 * [Ruby support documentation](https://github.com/Sirupsen/vim-execrus/tree/master/ftplugin/ruby)
+* [Javascript support documentation](https://github.com/Sirupsen/vim-execrus/tree/master/ftplugin/javascript)
 
 ## Customization
 
