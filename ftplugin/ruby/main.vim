@@ -12,7 +12,7 @@ call g:AddExecrusPlugin({
 " it.
 call g:AddExecrusPlugin({
   \'name': 'Ruby Gemfile',
-  \'exec': '!bundle install --gemfile=%',
-  \'cond': 'Gemfile',
+  \'exec': '!bundle install',
+  \'cond': '\(Gemfile\|gemspec\)',
   \'prev': "Default Ruby"
 \})
