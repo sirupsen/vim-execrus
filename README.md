@@ -51,6 +51,9 @@ See the `ftplugin/` directory for these. The behavior for Ruby would be in
 `ftplugin/ruby.vim`. This is also where you customize the behavior for Execrus.
 Send your best changes upstream.
 
+There's also a `repl` lane, which opens a fresh REPL in different programming
+languages.
+
 Examples:
 * [Ruby support documentation](https://github.com/Sirupsen/vim-execrus/tree/master/ftplugin/ruby)
 

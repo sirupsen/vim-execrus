@@ -16,3 +16,11 @@ call g:AddExecrusPlugin({
   \'cond': '\(Gemfile\|gemspec\)',
   \'prev': "Default Ruby"
 \})
+
+" NAME: Ruby REPL
+" LANE: repl
+" Open a Ruby REPL!
+call g:AddExecrusPlugin({
+  \'name': 'Ruby REPL',
+  \'exec': '!irb',
+\}, 'repl')
