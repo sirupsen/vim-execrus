@@ -1,4 +1,1 @@
-call g:AddExecrusPlugin({
-  \'name': 'Default Markdown',
-  \'exec': '!markdown % > /tmp/markdown.html && open /tmp/markdown.html',
-\})
+" See html.vim.. since apparently markdown is both filetypes (?!)
