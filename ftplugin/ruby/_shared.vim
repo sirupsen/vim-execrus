@@ -1,5 +1,5 @@
 function! g:RubyStartingCommand()
-  let cmd = "!"
+  let cmd = "!clear && "
 
   if filereadable("./Gemfile")
     let cmd .= "bundle exec "
