@@ -90,7 +90,7 @@ endfunction
 " project. A default task should be set in the grunt file.
 call g:AddExecrusPlugin({
   \'name': 'Yeoman',
-  \'exec': '!yeoman',
+  \'exec': '!yeoman test',
   \'cond': function('g:ExecuteYeomanCondition'),
   \'prev': 'Grunt'
 \})
