@@ -83,6 +83,10 @@ function! s:ExecutePlugin(plugin)
     return
   endif
 
+  if g:execrus_clear
+    silent! execute "!clear"
+  endif
+
   if type(a:plugin['exec']) == type(function('tr'))
     call call(a:plugin['exec'], [])
   elseif type(a:plugin['exec']) == type("")
@@ -149,3 +153,4 @@ function! g:Execrus(...)
   end
 endfunction
 
+let g:execrus_clear = 1
