@@ -58,6 +58,12 @@ Examples:
 * [Ruby support documentation](https://github.com/Sirupsen/vim-execrus/tree/master/ftplugin/ruby)
 * [Javascript support documentation](https://github.com/Sirupsen/vim-execrus/tree/master/ftplugin/javascript)
 
+## Options
+
+These are the defaults, change them by overriding this value in your `.vimrc`:
+
+`let g:execrus_clear = 1 " Clears screen when running execrus`
+
 ## Customization
 
 Execrus is a framework for running external commands in Vim, thus you should
