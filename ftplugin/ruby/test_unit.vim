@@ -1,15 +1,34 @@
 " NAME: Ruby Test
 " LANE: default
 " If the current file is a test, then run it.
-function! g:RunRubyTest()
+function! g:SpringRubyCommand()
+  if empty(system("which spring"))
+    return 0
+  endif
+
+  let cmd = "!spring testunit "
+
+  return cmd
+endfunction
+
+function! g:RunRubyTest(path)
   let cmd = g:RubyStartingCommand()
-  let cmd .= "ruby -Itest %"
+  let cmd .= "ruby -Itest " . a:path
+
+  if filereadable("config/application.rb") && !empty(g:SpringRubyCommand())
+    let cmd = g:SpringRubyCommand() . a:path
+  endif
+
   exec cmd
+endfunction
+
+function! g:RubyTest()
+  call g:RunRubyTest(expand("%"))
 endfunction
 
 call g:AddExecrusPlugin({
   \'name': 'Ruby Test',
-  \'exec': function("g:RunRubyTest"),
+  \'exec': function("g:RubyTest"),
   \'cond': '_test.rb$',
   \'prev': "Ruby Gemfile"
 \})
@@ -21,12 +40,12 @@ call g:AddExecrusPlugin({
 " `test/lib/something/input/file_test.rb` first. If that file doesn't exist,
 " it'll pop from the namespace and try `test/something/input/file_test.rb` until
 " it eaches `test/file_test.rb`. If that file doesn't exist, it gives up.
-function! g:RubyRunSingleTest(path)
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "ruby -Itest " . a:path
-
-  execute cmd
-endfunction
+" function! g:RubyRunSingleTest(path)
+"   let cmd = g:RubyStartingCommand()
+"   let cmd .= "ruby -Itest " . a:path
+" 
+"   execute cmd
+" endfunction
 
 function! g:RubyTestUnitTestName()
   if !isdirectory('./test')
@@ -45,7 +64,7 @@ endfunction
 
 function! g:RubyExecuteTestUnit()
   let test_name = g:RubyTestUnitTestName()
-  call g:RubyRunSingleTest(test_name)
+  call g:RunRubyTest(test_name)
 endfunction
 
 call g:AddExecrusPlugin({
@@ -105,8 +124,8 @@ function! g:GetTestName()
 endfunction
 
 function! g:RubyTestLineExecute()
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "ruby -Itest -Ilib % -n /" . g:GetTestName()  . '/'
+  let cmd = g:SpringRubyCommand()
+  let cmd .= "% -n /" . g:GetTestName()  . '/'
 
   exec cmd
 endfunction
