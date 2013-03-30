@@ -16,7 +16,8 @@ the lowest priority plugin first.
     Spring.
 3. Run RSpec spec
   - If the current file is a spec (matching `/_spec.rb/`) it will execute it as
-    a spec with `spec`.
+    a spec. If in a Rails environment and Spring is installed, it will run with
+    Spring.
 5. Run associated Test::Unit test
   - If the current file has a test associated with it, it will run that test.
     For instance, if you're in `lib/foo/bar/term.rb` it will look for a test
