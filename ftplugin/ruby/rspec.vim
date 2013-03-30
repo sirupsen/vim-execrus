@@ -2,7 +2,7 @@
 " LANE: default
 " If the current file is a spec, then run it with rspec.
 function! SpringRubyCommand()
-  if empty(system("which spring"))
+  if !filereadable("config/application.rb") || empty(system("which spring"))
     return 0
   endif
 
@@ -11,20 +11,24 @@ function! SpringRubyCommand()
   return cmd
 endfunction
 
-function! g:RunRubySpec()
+function! g:RunRubySpec(path)
   let cmd = g:RubyStartingCommand()
-  let cmd .= "rspec %"
+  let cmd .= "rspec " . a:path
 
-  if filereadable("config/application.rb") && !empty(SpringRubyCommand())
-    let cmd = SpringRubyCommand() . '%'
+  if !empty(SpringRubyCommand())
+    let cmd = SpringRubyCommand() . a:path
   endif
 
-  exec cmd
+  return cmd
+endfunction
+
+function! g:RubySpec()
+  exec g:RunRubySpec(expand("%"))
 endfunction
 
 call g:AddExecrusPlugin({
   \'name': 'Rspec test',
-  \'exec': function("g:RunRubySpec"),
+  \'exec': function("g:RubySpec"),
   \'cond': '_spec.rb$',
   \'prev': 'Ruby test'
 \})
@@ -33,17 +37,6 @@ call g:AddExecrusPlugin({
 " LANE: default
 " Same as "Associated test" but instead of looking for a Test::Unit-like test,
 " it will look for specs.
-function! g:RubyRunSingleSpec(file)
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "rspec " . a:file
-
-  if filereadable("config/application.rb") && !empty(SpringRubyCommand())
-    let cmd = SpringRubyCommand() . '%'
-  endif
-
-  exec cmd
-endfunction
-
 function! g:RubyRSpecTestName()
   if !isdirectory('./spec')
     return 0
@@ -54,7 +47,7 @@ endfunction
 
 function! g:RubyExecuteRspec()
   let test_name = g:RubyRSpecTestName()
-  call g:RubyRunSingleSpec(test_name)
+  call g:RunRubySpec(test_name)
 endfunction
 
 call g:AddExecrusPlugin({
@@ -68,12 +61,8 @@ call g:AddExecrusPlugin({
 " LANE: alternative
 " Runs the spec associated with the current line.
 function! g:RubyRspecLineExecute()
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "rspec %:" . line('.')
-
-  if filereadable("config/application.rb") && !empty(SpringRubyCommand())
-    let cmd = SpringRubyCommand() . '%:' . line('.')
-  endif
+  let cmd = g:RunRubySpec(expand("%"))
+  let cmd .= ":" . line('.')
 
   exec cmd
 endfunction
