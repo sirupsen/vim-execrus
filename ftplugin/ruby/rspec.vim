@@ -1,9 +1,24 @@
 " NAME: Rspec test
 " LANE: default
 " If the current file is a spec, then run it with rspec.
+function! SpringRubyCommand()
+  if empty(system("which spring"))
+    return 0
+  endif
+
+  let cmd = "!spring rspec "
+
+  return cmd
+endfunction
+
 function! g:RunRubySpec()
   let cmd = g:RubyStartingCommand()
   let cmd .= "rspec %"
+
+  if filereadable("config/application.rb") && !empty(SpringRubyCommand())
+    let cmd = SpringRubyCommand() . '%'
+  endif
+
   exec cmd
 endfunction
 
@@ -21,6 +36,10 @@ call g:AddExecrusPlugin({
 function! g:RubyRunSingleSpec(file)
   let cmd = g:RubyStartingCommand()
   let cmd .= "rspec " . a:file
+
+  if filereadable("config/application.rb") && !empty(SpringRubyCommand())
+    let cmd = SpringRubyCommand() . '%'
+  endif
 
   exec cmd
 endfunction
@@ -52,6 +71,10 @@ function! g:RubyRspecLineExecute()
   let cmd = g:RubyStartingCommand()
   let cmd .= "rspec %:" . line('.')
 
+  if filereadable("config/application.rb") && !empty(SpringRubyCommand())
+    let cmd = SpringRubyCommand() . '%:' . line('.')
+  endif
+
   exec cmd
 endfunction
 
@@ -61,3 +84,4 @@ call g:AddExecrusPlugin({
   \'cond': '_spec.rb$',
   \'prev': 'Test line'
 \}, 'alternative')
+
