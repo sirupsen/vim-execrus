@@ -19,11 +19,11 @@ function! g:RunRubyTest(path)
     let cmd = g:SpringRubyCommand() . a:path
   endif
 
-  exec cmd
+  return cmd
 endfunction
 
 function! g:RubyTest()
-  call g:RunRubyTest(expand("%"))
+  exec g:RunRubyTest(expand("%"))
 endfunction
 
 call g:AddExecrusPlugin({
@@ -64,7 +64,7 @@ endfunction
 
 function! g:RubyExecuteTestUnit()
   let test_name = g:RubyTestUnitTestName()
-  call g:RunRubyTest(test_name)
+  exec g:RunRubyTest(test_name)
 endfunction
 
 call g:AddExecrusPlugin({
@@ -124,14 +124,8 @@ function! g:GetTestName()
 endfunction
 
 function! g:RubyTestLineExecute()
-  let cmd = g:RubyStartingCommand()
-  let cmd .= "ruby -Itest " . a:path
-
-  if !empty(g:SpringRubyCommand())
-    let cmd = g:SpringRubyCommand() . a:path
-  endif
-
-  let cmd .= "% -n /" . g:GetTestName()  . '/'
+  let cmd = g:RunRubyTest(expand("%"))
+  let cmd .= " -n /" . g:GetTestName()  . '/'
 
   exec cmd
 endfunction
