@@ -2,7 +2,7 @@
 " LANE: default
 " If the current file is a test, then run it.
 function! g:SpringRubyCommand()
-  if !filereadable("config/application.rb") && empty(system("which spring"))
+  if !filereadable("config/application.rb") || empty(system("which spring"))
     return 0
   endif
 
