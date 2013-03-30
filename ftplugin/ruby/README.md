@@ -12,7 +12,8 @@ the lowest priority plugin first.
   - Run the current file with `bundle install` if it is a Gemfile.
 3. Run Test::Unit test
   - If the current file is a test (matching `/_test.rb/`) it will execute it as
-    a test.
+    a test. If in a Rails environment and Spring is installed, it will run with
+    Spring.
 3. Run RSpec spec
   - If the current file is a spec (matching `/_spec.rb/`) it will execute it as
     a spec with `spec`.
