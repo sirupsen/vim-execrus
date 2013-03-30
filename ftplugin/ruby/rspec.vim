@@ -47,7 +47,7 @@ endfunction
 
 function! g:RubyExecuteRspec()
   let test_name = g:RubyRSpecTestName()
-  call g:RunRubySpec(test_name)
+  exec g:RunRubySpec(test_name)
 endfunction
 
 call g:AddExecrusPlugin({
