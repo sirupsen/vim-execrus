@@ -124,7 +124,13 @@ function! g:GetTestName()
 endfunction
 
 function! g:RubyTestLineExecute()
-  let cmd = g:SpringRubyCommand()
+  let cmd = g:RubyStartingCommand()
+  let cmd .= "ruby -Itest " . a:path
+
+  if !empty(g:SpringRubyCommand())
+    let cmd = g:SpringRubyCommand() . a:path
+  endif
+
   let cmd .= "% -n /" . g:GetTestName()  . '/'
 
   exec cmd
