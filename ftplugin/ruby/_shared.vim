@@ -22,3 +22,13 @@ function! g:RubyTestName(prefix, suffix)
     return test_file
   endif
 endfunction
+
+function! g:SpringRubyCommand(framework)
+  if !filereadable("config/application.rb") || empty(system("which spring"))
+    return 0
+  endif
+
+  let cmd = "!spring " . a:framework
+
+  return cmd
+endfunction
