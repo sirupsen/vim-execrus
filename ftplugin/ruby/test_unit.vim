@@ -1,22 +1,12 @@
 " NAME: Ruby Test
 " LANE: default
 " If the current file is a test, then run it.
-function! g:SpringRubyCommand()
-  if !filereadable("config/application.rb") || empty(system("which spring"))
-    return 0
-  endif
-
-  let cmd = "!spring testunit "
-
-  return cmd
-endfunction
-
 function! g:RunRubyTest(path)
   let cmd = g:RubyStartingCommand()
   let cmd .= "ruby -Itest " . a:path
 
-  if !empty(g:SpringRubyCommand())
-    let cmd = g:SpringRubyCommand() . a:path
+  if !empty(g:SpringRubyCommand('testunit'))
+    let cmd = g:SpringRubyCommand('testunit') . a:path
   endif
 
   return cmd
