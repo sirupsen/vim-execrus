@@ -1,22 +1,12 @@
 " NAME: Rspec test
 " LANE: default
 " If the current file is a spec, then run it with rspec.
-function! SpringRubyCommand()
-  if !filereadable("config/application.rb") || empty(system("which spring"))
-    return 0
-  endif
-
-  let cmd = "!spring rspec "
-
-  return cmd
-endfunction
-
 function! g:RunRubySpec(path)
   let cmd = g:RubyStartingCommand()
   let cmd .= "rspec " . a:path
 
-  if !empty(SpringRubyCommand())
-    let cmd = SpringRubyCommand() . a:path
+  if !empty(g:SpringRubyCommand('rspec'))
+    let cmd = g:SpringRubyCommand('rspec') . a:path
   endif
 
   return cmd
