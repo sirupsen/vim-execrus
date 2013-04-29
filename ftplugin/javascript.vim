@@ -65,7 +65,7 @@ call g:AddExecrusPlugin({
 
 " Check if a grunt.js file is in the root of the project
 function! g:ExecuteGruntCondition()
-  return filereadable("grunt.js")
+  return filereadable("Gruntfile.js")
 endfunction
 
 " Name: Grunt
@@ -77,20 +77,4 @@ call g:AddExecrusPlugin({
   \'exec': '!grunt',
   \'cond': function('g:ExecuteGruntCondition'),
   \'prev': 'Npm'
-\})
-
-" Check if a Gruntfile.js is in the root of the project
-function! g:ExecuteYeomanCondition()
-  return filereadable("Gruntfile.js")
-endfunction
-
-" Name: Yeoman
-" Lane: default
-" Runs if a Gruntfile.js is in the root of the project. Runs yeoman on the
-" project. A default task should be set in the grunt file.
-call g:AddExecrusPlugin({
-  \'name': 'Yeoman',
-  \'exec': '!yeoman test',
-  \'cond': function('g:ExecuteYeomanCondition'),
-  \'prev': 'Grunt'
 \})
