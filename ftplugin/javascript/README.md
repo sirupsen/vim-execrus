@@ -15,11 +15,8 @@ the lowest priority plugin first.
 3. Npm
   - Runs `npm test` if a package.json file exists in the project root.
 5. Grunt
-  - Runs `grunt` on the project, if a grunt.js file exists in the project root.
+  - Runs `grunt` on the project, if a Gruntfile.js file exists in the project root.
     This requires [grunt](http://gruntjs.com) to be installed.
-6. Yeoman
-  - Runs `yeoman`on the project, if a Gruntfile.js file exists in the project root.
-    This requires [yeoman](http://yeoman.io) to be installed.
 
 ## Repl
 
