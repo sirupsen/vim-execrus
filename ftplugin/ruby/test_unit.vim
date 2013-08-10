@@ -19,18 +19,18 @@ function! g:RubyTest()
 endfunction
 
 function! g:IsRubyTestFile()
-  if match(expand("%"), '_test.rb$')
+  if match(expand("%"), '_test.rb$') != -1
     return 1
   endif
 
   let line = 1
 
   while line < 5
-    if match(getline(line), 'test_helper')
+    if match(getline(line), 'test_helper') != -1
       return 1
     endif
 
-    line += 1
+    let line += 1
   endwhile
 
   return 0
