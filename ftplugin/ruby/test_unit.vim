@@ -5,8 +5,10 @@ function! g:RunRubyTest(path)
   let cmd = g:RubyStartingCommand()
   let cmd .= "ruby -Itest " . a:path
 
-  if !empty(g:SpringRubyCommand('testunit'))
-    let cmd = g:SpringRubyCommand('testunit') . a:path
+  let preloader = g:RailsEnvironmentPreloader('testunit')
+
+  if !empty(preloader)
+    let cmd = preloader . " " . a:path
   endif
 
   return cmd
@@ -17,7 +19,7 @@ function! g:RubyTest()
 endfunction
 
 function! g:IsRubyTestFile()
-  if match(expand("%"), '_test.rb$'
+  if match(expand("%"), '_test.rb$')
     return 1
   endif
 

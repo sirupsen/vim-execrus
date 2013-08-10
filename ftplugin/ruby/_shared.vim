@@ -23,12 +23,20 @@ function! g:RubyTestName(prefix, suffix)
   endif
 endfunction
 
-function! g:SpringRubyCommand(framework)
-  if !filereadable("config/application.rb") || empty(system("which spring"))
-    return 0
+function! s:InRails()
+  return filereadable("config/application.rb")
+endfunction
+
+function! g:RailsEnvironmentPreloader(framework)
+  if s:InRails()
+    if !empty(glob('.zeus.sock'))
+      return "!zeus test"
+    endif
+
+    if !empty(system("which spring"))
+      return "!spring " . a:framework
+    endif
   endif
 
-  let cmd = "!spring " . a:framework
-
-  return cmd
+  return 0
 endfunction
