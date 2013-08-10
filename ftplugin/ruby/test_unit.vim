@@ -16,10 +16,28 @@ function! g:RubyTest()
   exec g:RunRubyTest(expand("%"))
 endfunction
 
+function! g:IsRubyTestFile()
+  if match(expand("%"), '_test.rb$'
+    return 1
+  endif
+
+  let line = 1
+
+  while line < 5
+    if match(getline(line), 'test_helper')
+      return 1
+    endif
+
+    line += 1
+  endwhile
+
+  return 0
+endfunction
+
 call g:AddExecrusPlugin({
   \'name': 'Ruby Test',
   \'exec': function("g:RubyTest"),
-  \'cond': '_test.rb$',
+  \'cond': function("g:IsRubyTestFile"),
   \'prev': "Ruby Gemfile"
 \})
 
